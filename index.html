@@ -18,8 +18,15 @@
 <meta name="twitter:description" content="Локальный генератор паролей с проверкой утечек HIBP">
 
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
+/* ---------- СВЕТЛАЯ ТЕМА ---------- */
 [data-theme="light"] {
   --bg-image: url('https://raw.githubusercontent.com/Michi-Mochirellune/World-of-Passwords-Secure-Generator-OpenSource/main/World-of-Passwords/white.jpg');
   --bg-color: #ffffff;
@@ -45,6 +52,7 @@
   --title-plate-bg: rgba(255, 255, 255, 0.8);
 }
 
+/* ---------- ТЁМНАЯ ТЕМА ---------- */
 [data-theme="dark"] {
   --bg-image: url('https://raw.githubusercontent.com/Michi-Mochirellune/World-of-Passwords-Secure-Generator-OpenSource/main/World-of-Passwords/black.jpg');
   --bg-color: #0f0f0f;
@@ -88,124 +96,682 @@ body {
   will-change: auto;
 }
 
-.wrap { width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 12px; }
+.wrap {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; gap: 10px; flex-wrap: wrap; }
-.header-left { background: var(--title-plate-bg); padding: 6px 14px; border: 1px solid var(--border); }
-.header-left h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.3px; color: var(--text); white-space: nowrap; margin: 0; }
-.header-left h1 .strikethrough { text-decoration: line-through; opacity: 0.6; }
-.header-left h1 .arrow { opacity: 0.8; margin: 0 2px; }
+/* Шапка */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 
-.header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.header-left {
+  background: var(--title-plate-bg);
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+}
 
-.lang-btn { padding: 6px 10px; border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px; white-space: nowrap; transition: background 0.15s; box-shadow: var(--shadow); }
-.lang-btn:hover { background: var(--surface2); }
+.header-left h1 {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  color: var(--text);
+  white-space: nowrap;
+  margin: 0;
+}
 
-.project-btn { padding: 6px 10px; border: 1px solid var(--project-btn-hover); background: var(--project-btn-bg); color: var(--project-btn-text); cursor: pointer; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 4px; white-space: nowrap; transition: background 0.15s; box-shadow: var(--shadow); position: relative; }
-.project-btn:hover { background: var(--project-btn-hover); }
+.header-left h1 .strikethrough {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
 
-.project-menu { display: none; position: absolute; top: 100%; right: 0; margin-top: 8px; background: var(--surface); border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.15); padding: 14px; z-index: 200; min-width: 240px; }
-.project-menu.show { display: block; }
-.project-menu-text { font-size: 13px; color: var(--text); margin-bottom: 10px; text-align: center; line-height: 1.4; }
-.project-menu-btns { display: flex; gap: 8px; justify-content: center; }
-.project-menu-link { flex: 1; padding: 8px 10px; border: 1px solid var(--border); background: var(--surface2); color: var(--text); text-decoration: none; font-size: 13px; font-weight: 500; cursor: pointer; text-align: center; transition: background 0.15s; display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap; }
-.project-menu-link:hover { background: var(--border); }
+.header-left h1 .arrow {
+  opacity: 0.8;
+  margin: 0 2px;
+}
 
-.project-overlay { display: none; position: fixed; inset: 0; z-index: 199; }
-.project-overlay.show { display: block; }
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
 
-.theme-btn { width: 40px; height: 40px; border: 1px solid var(--border); background: var(--surface); color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: var(--shadow); transition: background 0.15s, transform 0.15s; flex-shrink: 0; }
-.theme-btn:hover { background: var(--surface2); transform: scale(1.08); }
+/* Кнопка языка */
+.lang-btn {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  transition: background 0.15s;
+  box-shadow: var(--shadow);
+}
 
-.tabs { display: flex; flex-wrap: wrap; background: var(--surface); border: 1px solid var(--border); padding: 4px; gap: 2px; box-shadow: var(--shadow); }
-.tab { flex: 1 0 auto; padding: 8px 4px; border: none; background: transparent; color: var(--text); font-size: 12px; font-weight: 500; cursor: pointer; transition: background 0.15s, color 0.15s; white-space: nowrap; }
-.tab.active { background: var(--accent); color: #fff; }
-.tab:not(.active):hover { background: var(--surface2); color: var(--text); }
+.lang-btn:hover {
+  background: var(--surface2);
+}
 
-.card { background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow); overflow: hidden; }
+/* Кнопка Проект⭐ */
+.project-btn {
+  padding: 6px 10px;
+  border: 1px solid var(--project-btn-hover);
+  background: var(--project-btn-bg);
+  color: var(--project-btn-text);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  transition: background 0.15s;
+  box-shadow: var(--shadow);
+  position: relative;
+}
 
-.password-display { padding: 20px; border-bottom: 1px solid var(--border); }
-.password-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text); margin-bottom: 10px; }
-.password-row { display: flex; align-items: flex-start; gap: 10px; }
-.password-text { flex: 1; font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace; font-size: 17px; font-weight: 500; letter-spacing: 0.4px; color: var(--text); word-break: break-all; line-height: 1.5; min-height: 28px; }
-.btn-group { display: flex; gap: 6px; flex-shrink: 0; }
-.icon-btn { width: 36px; height: 36px; border: 1px solid var(--border); background: var(--surface2); color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; font-size: 15px; }
-.icon-btn:hover { background: var(--border); color: var(--text); }
-.icon-btn.copied { background: var(--green-soft); border-color: var(--green); color: var(--green); }
+.project-btn:hover {
+  background: var(--project-btn-hover);
+}
 
-.strength-area { padding: 12px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; }
-.strength-track { flex: 1; height: 4px; background: var(--surface2); overflow: hidden; }
-.strength-fill { height: 100%; transition: width 0.35s, background 0.35s; width: 0%; }
-.strength-meta { display: flex; flex-direction: column; align-items: flex-end; min-width: 80px; }
-.strength-label { font-size: 12px; font-weight: 600; color: var(--text); transition: color 0.3s; }
-.strength-entropy { font-size: 10px; color: var(--text); margin-top: 1px; }
+/* Меню проекта */
+.project-menu {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 14px;
+  z-index: 200;
+  min-width: 240px;
+  max-width: 90vw;
+}
+
+.project-menu.show {
+  display: block;
+}
+
+.project-menu-text {
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 10px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.project-menu-btns {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.project-menu-link {
+  flex: 1;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.project-menu-link:hover {
+  background: var(--border);
+}
+
+.project-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 199;
+}
+
+.project-overlay.show {
+  display: block;
+}
+
+/* Кнопка темы */
+.theme-btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: var(--shadow);
+  transition: background 0.15s, transform 0.15s;
+  flex-shrink: 0;
+}
+
+.theme-btn:hover {
+  background: var(--surface2);
+  transform: scale(1.08);
+}
+
+/* Вкладки */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 4px;
+  gap: 2px;
+  box-shadow: var(--shadow);
+}
+
+.tab {
+  flex: 1 0 auto;
+  padding: 8px 4px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.tab.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.tab:not(.active):hover {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+/* Карточки */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+/* Отображение пароля */
+.password-display {
+  padding: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.password-label {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.password-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.password-text {
+  flex: 1;
+  font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  color: var(--text);
+  word-break: break-all;
+  line-height: 1.5;
+  min-height: 28px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  font-size: 15px;
+}
+
+.icon-btn:hover {
+  background: var(--border);
+  color: var(--text);
+}
+
+.icon-btn.copied {
+  background: var(--green-soft);
+  border-color: var(--green);
+  color: var(--green);
+}
+
+/* Шкала стойкости */
+.strength-area {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.strength-track {
+  flex: 1;
+  height: 4px;
+  background: var(--surface2);
+  overflow: hidden;
+}
+
+.strength-fill {
+  height: 100%;
+  transition: width 0.35s, background 0.35s;
+  width: 0%;
+}
+
+.strength-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-width: 80px;
+}
+
+.strength-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  transition: color 0.3s;
+}
+
+.strength-entropy {
+  font-size: 10px;
+  color: var(--text);
+  margin-top: 1px;
+}
 
 /* Кнопка генерации внутри карточки */
-.generate-row { padding: 14px 20px; border-bottom: 1px solid var(--border); }
-.generate-btn { width: 100%; padding: 12px; border: none; background: var(--accent); color: #fff; font-size: 15px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.15s; }
-.generate-btn:hover { opacity: 0.87; }
+.generate-row {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+}
 
-.controls, .phrase-controls, .check-area, .bulk-area, .qr-area, .profile-area, .pronounce-area, .history-area { padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; }
-.control-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.control-label { font-size: 14px; color: var(--text); user-select: none; }
-.control-label small { font-size: 12px; color: var(--text); display: block; margin-top: 1px; }
-.length-right { display: flex; align-items: center; gap: 10px; }
-.length-value { font-size: 14px; font-weight: 600; color: var(--accent-text); min-width: 26px; text-align: center; font-variant-numeric: tabular-nums; }
+.generate-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity 0.15s;
+}
 
-input[type="range"] { -webkit-appearance: none; width: 130px; height: 4px; background: var(--surface2); outline: none; cursor: pointer; }
-input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--accent); cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.2); transition: transform 0.1s; }
-input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
+.generate-btn:hover {
+  opacity: 0.87;
+}
 
-.toggle { position: relative; width: 38px; height: 22px; flex-shrink: 0; }
-.toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
-.toggle-track { position: absolute; inset: 0; background: var(--surface2); border: 1px solid var(--border); cursor: pointer; transition: background 0.2s; }
-.toggle-track::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; background: var(--text); transition: transform 0.2s cubic-bezier(0.4,0,0.2,1); }
-.toggle input:checked + .toggle-track { background: var(--accent); border-color: var(--accent); }
-.toggle input:checked + .toggle-track::after { transform: translateX(16px); background: #fff; }
+/* Контролы */
+.controls,
+.phrase-controls,
+.check-area,
+.bulk-area,
+.qr-area,
+.profile-area,
+.pronounce-area,
+.history-area {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
 
-.divider { height: 1px; background: var(--border); margin: 2px -20px; }
+.control-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
 
-.custom-chars-input, .check-input, select, .profile-name-input { padding: 7px 10px; border: 1px solid var(--border); background: var(--surface2); color: var(--text); font-size: 13px; outline: none; transition: border-color 0.15s; font-family: monospace; }
-.custom-chars-input:focus, .check-input:focus, select:focus, .profile-name-input:focus { border-color: var(--accent); }
+.control-label {
+  font-size: 14px;
+  color: var(--text);
+  user-select: none;
+}
 
-.sm-btn { padding: 8px 14px; border: 1px solid var(--border); background: var(--surface2); color: var(--text); font-size: 13px; cursor: pointer; transition: background 0.15s; white-space: nowrap; }
-.sm-btn:hover { background: var(--border); }
-.sm-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-.sm-btn.primary:hover { opacity: 0.88; }
+.control-label small {
+  font-size: 12px;
+  color: var(--text);
+  display: block;
+  margin-top: 1px;
+}
 
-.bulk-list { background: var(--surface2); border: 1px solid var(--border); padding: 12px; font-family: monospace; font-size: 13px; line-height: 1.8; max-height: 200px; overflow-y: auto; white-space: pre-wrap; color: var(--text); }
+.length-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-.history-list { max-height: 400px; overflow-y: auto; }
-.history-item { padding: 12px 16px; display: flex; justify-content: space-between; gap: 12px; cursor: pointer; border-bottom: 1px solid var(--border); }
-.history-item:last-child { border-bottom: none; }
-.history-item:hover { background: var(--surface2); }
-.history-pass { font-family: monospace; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; color: var(--text); }
-.history-meta { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
-.badge { font-size: 11px; color: var(--text); background: var(--surface2); border: 1px solid var(--border); padding: 2px 8px; }
+.length-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent-text);
+  min-width: 26px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
 
-.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(12px); background: var(--toast-bg); color: var(--toast-color); padding: 10px 18px; font-size: 13px; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity 0.2s; white-space: nowrap; z-index: 100; }
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+/* Ползунки */
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 130px;
+  height: 4px;
+  background: var(--surface2);
+  outline: none;
+  cursor: pointer;
+}
 
-.panel { display: none; }
-.panel.active { display: block; }
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--accent);
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  transition: transform 0.1s;
+}
 
-.spin { animation: spin 0.4s ease; }
-@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-.qr-canvas { border: 1px solid var(--border); background: #fff; padding: 10px; display: none; margin-top: 8px; margin-left: auto; margin-right: auto; }
-.hibp-result { font-size: 13px; margin-top: 6px; padding: 8px; background: var(--surface2); color: var(--text); }
-.crack-time { font-weight: 600; }
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Тоглы */
+.toggle {
+  position: relative;
+  width: 38px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggle-track {
+  position: absolute;
+  inset: 0;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background: var(--text);
+  transition: transform 0.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+.toggle input:checked + .toggle-track {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.toggle input:checked + .toggle-track::after {
+  transform: translateX(16px);
+  background: #fff;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 2px -20px;
+}
+
+/* Поля ввода и селекты */
+.custom-chars-input,
+.check-input,
+select,
+.profile-name-input {
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s;
+  font-family: monospace;
+}
+
+.custom-chars-input:focus,
+.check-input:focus,
+select:focus,
+.profile-name-input:focus {
+  border-color: var(--accent);
+}
+
+/* Кнопки */
+.sm-btn {
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.sm-btn:hover {
+  background: var(--border);
+}
+
+.sm-btn.primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.sm-btn.primary:hover {
+  opacity: 0.88;
+}
+
+/* Список паролей */
+.bulk-list {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 12px;
+  font-family: monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  max-height: 200px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  color: var(--text);
+}
+
+/* История во вкладке */
+.history-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.history-item {
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.history-item:hover {
+  background: var(--surface2);
+}
+
+.history-pass {
+  font-family: monospace;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  color: var(--text);
+}
+
+.history-meta {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.badge {
+  font-size: 11px;
+  color: var(--text);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+}
+
+/* Тост */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  background: var(--toast-bg);
+  color: var(--toast-color);
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+  z-index: 100;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.panel {
+  display: none;
+}
+
+.panel.active {
+  display: block;
+}
+
+.spin {
+  animation: spin 0.4s ease;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.qr-canvas {
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 10px;
+  display: none;
+  margin-top: 8px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hibp-result {
+  font-size: 13px;
+  margin-top: 6px;
+  padding: 8px;
+  background: var(--surface2);
+  color: var(--text);
+}
+
+.crack-time {
+  font-weight: 600;
+}
 
 @media (max-width: 480px) {
-  .header-left h1 { font-size: 17px; }
-  .lang-btn { font-size: 11px; padding: 5px 7px; }
-  .project-btn { font-size: 11px; padding: 5px 7px; }
+  .header-left h1 {
+    font-size: 17px;
+  }
+  .lang-btn {
+    font-size: 11px;
+    padding: 5px 7px;
+  }
+  .project-btn {
+    font-size: 11px;
+    padding: 5px 7px;
+  }
 }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="header">
-    <div class="header-left"><h1 id="mainTitle">World of <span class="strikethrough">Tanks</span><span class="arrow">→</span>Passwords</h1></div>
+    <div class="header-left">
+      <h1 id="mainTitle">World of <span class="strikethrough">Tanks</span><span class="arrow">→</span>Passwords</h1>
+    </div>
     <div class="header-right">
       <button class="lang-btn" id="langBtn" onclick="toggleLanguage()">RU 🇷🇺</button>
       <div style="position: relative;">
@@ -237,29 +803,101 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
   <!-- Панель генерации пароля -->
   <div class="panel active" id="panel-password">
     <div class="card">
-      <div class="password-display"><div class="password-label" id="passwordLabel"></div>
-        <div class="password-row"><div class="password-text" id="passwordText">—</div>
-          <div class="btn-group"><button class="icon-btn" id="copyBtn" onclick="copyPassword()">📋</button></div>
+      <div class="password-display">
+        <div class="password-label" id="passwordLabel"></div>
+        <div class="password-row">
+          <div class="password-text" id="passwordText">—</div>
+          <div class="btn-group">
+            <button class="icon-btn" id="copyBtn" onclick="copyPassword()">📋</button>
+          </div>
         </div>
       </div>
-      <div class="strength-area"><div class="strength-track"><div class="strength-fill" id="strengthFill"></div></div><div class="strength-meta"><div class="strength-label" id="strengthLabel">—</div><div class="strength-entropy" id="entropyLabel"></div></div></div>
-      <div class="generate-row"><button class="generate-btn" id="generatePwdBtn" onclick="generate()"></button></div>
+      <div class="strength-area">
+        <div class="strength-track">
+          <div class="strength-fill" id="strengthFill"></div>
+        </div>
+        <div class="strength-meta">
+          <div class="strength-label" id="strengthLabel">—</div>
+          <div class="strength-entropy" id="entropyLabel"></div>
+        </div>
+      </div>
+      <div class="generate-row">
+        <button class="generate-btn" id="generatePwdBtn" onclick="generate()"></button>
+      </div>
       <div class="controls">
-        <div class="control-row"><div class="control-label" id="lengthLabel"></div><div class="length-right"><span class="length-value" id="lengthValue">16</span><input type="range" id="lengthSlider" min="4" max="128" value="16" oninput="onLengthChange()"></div></div>
+        <div class="control-row">
+          <div class="control-label" id="lengthLabel"></div>
+          <div class="length-right">
+            <span class="length-value" id="lengthValue">16</span>
+            <input type="range" id="lengthSlider" min="4" max="128" value="16" oninput="onLengthChange()">
+          </div>
+        </div>
         <div class="divider"></div>
-        <div class="control-row"><div class="control-label" id="uppercaseLabel"></div><label class="toggle"><input type="checkbox" id="uppercase" checked><span class="toggle-track"></span></label></div>
-        <div class="control-row"><div class="control-label" id="lowercaseLabel"></div><label class="toggle"><input type="checkbox" id="lowercase" checked><span class="toggle-track"></span></label></div>
-        <div class="control-row"><div class="control-label" id="numbersLabel"></div><label class="toggle"><input type="checkbox" id="numbers" checked><span class="toggle-track"></span></label></div>
-        <div class="control-row"><div class="control-label" id="symbolsLabel"></div><label class="toggle"><input type="checkbox" id="symbols"><span class="toggle-track"></span></label></div>
-        <div class="control-row"><div class="control-label" id="noambigLabel"></div><label class="toggle"><input type="checkbox" id="noambig"><span class="toggle-track"></span></label></div>
-        <div class="control-row"><div class="control-label" id="guaranteeLabel"></div><label class="toggle"><input type="checkbox" id="guarantee" checked><span class="toggle-track"></span></label></div>
+        <div class="control-row">
+          <div class="control-label" id="uppercaseLabel"></div>
+          <label class="toggle">
+            <input type="checkbox" id="uppercase" checked>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+        <div class="control-row">
+          <div class="control-label" id="lowercaseLabel"></div>
+          <label class="toggle">
+            <input type="checkbox" id="lowercase" checked>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+        <div class="control-row">
+          <div class="control-label" id="numbersLabel"></div>
+          <label class="toggle">
+            <input type="checkbox" id="numbers" checked>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+        <div class="control-row">
+          <div class="control-label" id="symbolsLabel"></div>
+          <label class="toggle">
+            <input type="checkbox" id="symbols">
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+        <div class="control-row">
+          <div class="control-label" id="noambigLabel"></div>
+          <label class="toggle">
+            <input type="checkbox" id="noambig">
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+        <div class="control-row">
+          <div class="control-label" id="guaranteeLabel"></div>
+          <label class="toggle">
+            <input type="checkbox" id="guarantee" checked>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
         <div class="divider"></div>
-        <div class="control-row"><div class="control-label" id="noRepeatLabel"></div><label class="toggle"><input type="checkbox" id="noRepeat"><span class="toggle-track"></span></label></div>
-        <div class="control-row"><div class="control-label" id="minDigitsLabel"></div><input type="number" id="minDigits" min="0" max="10" value="0" style="width:60px"></div>
-        <div class="control-row"><div class="control-label" id="minSymbolsLabel"></div><input type="number" id="minSymbols" min="0" max="10" value="0" style="width:60px"></div>
+        <div class="control-row">
+          <div class="control-label" id="noRepeatLabel"></div>
+          <label class="toggle">
+            <input type="checkbox" id="noRepeat">
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+        <div class="control-row">
+          <div class="control-label" id="minDigitsLabel"></div>
+          <input type="number" id="minDigits" min="0" max="10" value="0" style="width:60px">
+        </div>
+        <div class="control-row">
+          <div class="control-label" id="minSymbolsLabel"></div>
+          <input type="number" id="minSymbols" min="0" max="10" value="0" style="width:60px">
+        </div>
         <div class="divider"></div>
-        <div class="control-row"><div class="control-label" id="customCharsLabel"></div></div>
-        <div class="custom-chars-row"><input type="text" class="custom-chars-input" id="customChars"></div>
+        <div class="control-row">
+          <div class="control-label" id="customCharsLabel"></div>
+        </div>
+        <div class="custom-chars-row">
+          <input type="text" class="custom-chars-input" id="customChars">
+        </div>
       </div>
     </div>
   </div>
@@ -267,15 +905,66 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
   <!-- Панель фразы -->
   <div class="panel" id="panel-phrase">
     <div class="card">
-      <div class="password-display"><div class="password-label" id="phraseLabel"></div><div class="password-row"><div class="password-text" id="phraseText">—</div><div class="btn-group"><button class="icon-btn" id="copyPhraseBtn" onclick="copyPhrase()">📋</button></div></div></div>
-      <div class="strength-area"><div class="strength-track"><div class="strength-fill" id="phraseStrengthFill"></div></div><div class="strength-meta"><div class="strength-label" id="phraseStrengthLabel">—</div><div class="strength-entropy" id="phraseEntropyLabel"></div></div></div>
-      <div class="generate-row"><button class="generate-btn" id="generatePhraseBtn" onclick="generatePhrase()"></button></div>
+      <div class="password-display">
+        <div class="password-label" id="phraseLabel"></div>
+        <div class="password-row">
+          <div class="password-text" id="phraseText">—</div>
+          <div class="btn-group">
+            <button class="icon-btn" id="copyPhraseBtn" onclick="copyPhrase()">📋</button>
+          </div>
+        </div>
+      </div>
+      <div class="strength-area">
+        <div class="strength-track">
+          <div class="strength-fill" id="phraseStrengthFill"></div>
+        </div>
+        <div class="strength-meta">
+          <div class="strength-label" id="phraseStrengthLabel">—</div>
+          <div class="strength-entropy" id="phraseEntropyLabel"></div>
+        </div>
+      </div>
+      <div class="generate-row">
+        <button class="generate-btn" id="generatePhraseBtn" onclick="generatePhrase()"></button>
+      </div>
       <div class="phrase-controls">
-        <div class="control-row"><div class="control-label" id="wordCountLabel"></div><div class="length-right"><span class="length-value" id="wordCountValue">4</span><input type="range" id="wordCountSlider" min="3" max="10" value="4" oninput="onWordCountChange()"></div></div>
-        <div class="control-row"><div class="control-label" id="separatorLabel"></div><select id="separator"><option value="-">-</option><option value=".">.</option><option value="_">_</option><option value=" " id="sepSpace"></option><option value="" id="sepNone"></option></select></div>
-        <div class="control-row"><div class="control-label" id="phraseNumLabel"></div><label class="toggle"><input type="checkbox" id="phraseNumber"><span class="toggle-track"></span></label></div>
-        <div class="control-row"><div class="control-label" id="phraseSymLabel"></div><label class="toggle"><input type="checkbox" id="phraseSymbol"><span class="toggle-track"></span></label></div>
-        <div class="control-row"><div class="control-label" id="phraseCapLabel"></div><label class="toggle"><input type="checkbox" id="phraseCapitalize" checked><span class="toggle-track"></span></label></div>
+        <div class="control-row">
+          <div class="control-label" id="wordCountLabel"></div>
+          <div class="length-right">
+            <span class="length-value" id="wordCountValue">4</span>
+            <input type="range" id="wordCountSlider" min="3" max="10" value="4" oninput="onWordCountChange()">
+          </div>
+        </div>
+        <div class="control-row">
+          <div class="control-label" id="separatorLabel"></div>
+          <select id="separator">
+            <option value="-">-</option>
+            <option value=".">.</option>
+            <option value="_">_</option>
+            <option value=" " id="sepSpace"></option>
+            <option value="" id="sepNone"></option>
+          </select>
+        </div>
+        <div class="control-row">
+          <div class="control-label" id="phraseNumLabel"></div>
+          <label class="toggle">
+            <input type="checkbox" id="phraseNumber">
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+        <div class="control-row">
+          <div class="control-label" id="phraseSymLabel"></div>
+          <label class="toggle">
+            <input type="checkbox" id="phraseSymbol">
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+        <div class="control-row">
+          <div class="control-label" id="phraseCapLabel"></div>
+          <label class="toggle">
+            <input type="checkbox" id="phraseCapitalize" checked>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
       </div>
     </div>
   </div>
@@ -283,65 +972,152 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
   <!-- Панель произносимого пароля -->
   <div class="panel" id="panel-pronounce">
     <div class="card">
-      <div class="password-display"><div class="password-label" id="pronLabel"></div><div class="password-row"><div class="password-text" id="pronounceText">—</div><div class="btn-group"><button class="icon-btn" onclick="copyPronounce()">📋</button></div></div></div>
-      <div class="strength-area"><div class="strength-track"><div class="strength-fill" id="pronStrengthFill"></div></div><div class="strength-meta"><div class="strength-label" id="pronStrengthLabel">—</div><div class="strength-entropy" id="pronEntropyLabel"></div></div></div>
-      <div class="generate-row"><button class="generate-btn" id="generatePronBtn" onclick="generatePronounce()"></button></div>
+      <div class="password-display">
+        <div class="password-label" id="pronLabel"></div>
+        <div class="password-row">
+          <div class="password-text" id="pronounceText">—</div>
+          <div class="btn-group">
+            <button class="icon-btn" onclick="copyPronounce()">📋</button>
+          </div>
+        </div>
+      </div>
+      <div class="strength-area">
+        <div class="strength-track">
+          <div class="strength-fill" id="pronStrengthFill"></div>
+        </div>
+        <div class="strength-meta">
+          <div class="strength-label" id="pronStrengthLabel">—</div>
+          <div class="strength-entropy" id="pronEntropyLabel"></div>
+        </div>
+      </div>
+      <div class="generate-row">
+        <button class="generate-btn" id="generatePronBtn" onclick="generatePronounce()"></button>
+      </div>
       <div class="pronounce-area">
-        <div class="control-row"><div class="control-label" id="pronLenLabel"></div><div class="length-right"><span class="length-value" id="pronLenValue">10</span><input type="range" id="pronLenSlider" min="6" max="30" value="10" oninput="pronLenChange()"></div></div>
-        <div class="control-row"><div class="control-label" id="pronModeLabel"></div><select id="pronMode"><option value="cv" id="pronCV"></option><option value="cvc" id="pronCVC"></option><option value="vcv" id="pronVCV"></option></select></div>
-        <div class="control-row"><div class="control-label" id="pronCapLabel"></div><label class="toggle"><input type="checkbox" id="pronCapitalize"><span class="toggle-track"></span></label></div>
-        <div class="control-row"><div class="control-label" id="pronNumLabel"></div><label class="toggle"><input type="checkbox" id="pronNumber"><span class="toggle-track"></span></label></div>
+        <div class="control-row">
+          <div class="control-label" id="pronLenLabel"></div>
+          <div class="length-right">
+            <span class="length-value" id="pronLenValue">10</span>
+            <input type="range" id="pronLenSlider" min="6" max="30" value="10" oninput="pronLenChange()">
+          </div>
+        </div>
+        <div class="control-row">
+          <div class="control-label" id="pronModeLabel"></div>
+          <select id="pronMode">
+            <option value="cv" id="pronCV"></option>
+            <option value="cvc" id="pronCVC"></option>
+            <option value="vcv" id="pronVCV"></option>
+          </select>
+        </div>
+        <div class="control-row">
+          <div class="control-label" id="pronCapLabel"></div>
+          <label class="toggle">
+            <input type="checkbox" id="pronCapitalize">
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+        <div class="control-row">
+          <div class="control-label" id="pronNumLabel"></div>
+          <label class="toggle">
+            <input type="checkbox" id="pronNumber">
+            <span class="toggle-track"></span>
+          </label>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Панель проверки -->
   <div class="panel" id="panel-check">
-    <div class="card"><div class="check-area">
-      <div class="control-label" id="checkLabel"></div>
-      <div class="check-input-row">
-        <input type="password" class="check-input" id="checkInput" oninput="checkPassword()" onkeydown="if(event.key==='Enter') checkHIBP()">
-        <button class="sm-btn" onclick="toggleCheckVisibility()" id="checkShowBtn">👁</button>
-        <button class="sm-btn" onclick="checkHIBP()" id="checkLeakBtn"></button>
+    <div class="card">
+      <div class="check-area">
+        <div class="control-label" id="checkLabel"></div>
+        <div class="check-input-row">
+          <input type="password" class="check-input" id="checkInput" oninput="checkPassword()" onkeydown="if(event.key==='Enter') checkHIBP()">
+          <button class="sm-btn" onclick="toggleCheckVisibility()" id="checkShowBtn">👁</button>
+          <button class="sm-btn" onclick="checkHIBP()" id="checkLeakBtn"></button>
+        </div>
+        <div class="strength-area" style="padding:0;">
+          <div class="strength-track">
+            <div class="strength-fill" id="checkStrengthFill"></div>
+          </div>
+          <div class="strength-meta">
+            <div class="strength-label" id="checkStrengthLabel">—</div>
+            <div class="strength-entropy" id="checkEntropyLabel"></div>
+          </div>
+        </div>
+        <div class="check-result" id="checkResult">
+          <div class="check-stat"><span id="checkLenLabel"></span>: <strong id="checkLen">—</strong></div>
+          <div class="check-stat"><span id="checkCharsetLabel"></span>: <strong id="checkCharset">—</strong></div>
+          <div class="check-stat"><span id="checkEntropyLabel2"></span>: <strong id="checkEntropy">—</strong> <span id="checkBitsLabel"></span></div>
+          <div class="check-stat"><span id="checkCrackLabel"></span>: <span class="crack-time" id="crackTime">—</span></div>
+          <div id="hibpResult" class="hibp-result" style="display:none"></div>
+        </div>
       </div>
-      <div class="strength-area" style="padding:0;"><div class="strength-track"><div class="strength-fill" id="checkStrengthFill"></div></div><div class="strength-meta"><div class="strength-label" id="checkStrengthLabel">—</div><div class="strength-entropy" id="checkEntropyLabel"></div></div></div>
-      <div class="check-result" id="checkResult">
-        <div class="check-stat"><span id="checkLenLabel"></span>: <strong id="checkLen">—</strong></div>
-        <div class="check-stat"><span id="checkCharsetLabel"></span>: <strong id="checkCharset">—</strong></div>
-        <div class="check-stat"><span id="checkEntropyLabel2"></span>: <strong id="checkEntropy">—</strong> <span id="checkBitsLabel"></span></div>
-        <div class="check-stat"><span id="checkCrackLabel"></span>: <span class="crack-time" id="crackTime">—</span></div>
-        <div id="hibpResult" class="hibp-result" style="display:none"></div>
-      </div>
-    </div></div>
+    </div>
   </div>
 
   <!-- Панель списка -->
-  <div class="panel" id="panel-bulk"><div class="card"><div class="bulk-area">
-    <div class="control-row"><div class="control-label" id="bulkCountLabel"></div><div class="length-right"><span class="length-value" id="bulkCountValue">10</span><input type="range" id="bulkCountSlider" min="1" max="100" value="10" oninput="document.getElementById('bulkCountValue').textContent=this.value"></div></div>
-    <button class="sm-btn primary" id="generateBulkBtn" onclick="generateBulk()"></button>
-    <div class="bulk-list" id="bulkList"></div>
-    <div class="bulk-actions">
-      <button class="sm-btn" onclick="copyBulk()" id="copyBulkBtn"></button>
-      <button class="sm-btn" onclick="downloadBulk()" id="downloadBulkBtn"></button>
+  <div class="panel" id="panel-bulk">
+    <div class="card">
+      <div class="bulk-area">
+        <div class="control-row">
+          <div class="control-label" id="bulkCountLabel"></div>
+          <div class="length-right">
+            <span class="length-value" id="bulkCountValue">10</span>
+            <input type="range" id="bulkCountSlider" min="1" max="100" value="10" oninput="document.getElementById('bulkCountValue').textContent=this.value">
+          </div>
+        </div>
+        <button class="sm-btn primary" id="generateBulkBtn" onclick="generateBulk()"></button>
+        <div class="bulk-list" id="bulkList"></div>
+        <div class="bulk-actions">
+          <button class="sm-btn" onclick="copyBulk()" id="copyBulkBtn"></button>
+          <button class="sm-btn" onclick="downloadBulk()" id="downloadBulkBtn"></button>
+        </div>
+      </div>
     </div>
-  </div></div></div>
+  </div>
 
   <!-- Панель профилей -->
-  <div class="panel" id="panel-profiles"><div class="card"><div class="profile-area">
-    <div class="control-row"><div class="control-label" id="saveProfileLabel"></div><input type="text" id="profileName" class="profile-name-input"><button class="sm-btn" onclick="saveProfile()" id="saveProfileBtn"></button></div>
-    <div class="control-row"><div class="control-label" id="loadProfileLabel"></div><select id="profileSelect" style="flex:1" onchange="loadProfile(this.value)"><option value="" id="profileSelectNone"></option></select><button class="sm-btn" onclick="deleteProfile()" id="deleteProfileBtn"></button></div>
-    <div class="divider"></div>
-    <div class="control-row"><div class="control-label" id="exportImportLabel"></div></div>
-    <div class="control-row"><button class="sm-btn" onclick="exportProfiles()" id="exportBtn"></button><button class="sm-btn" onclick="importProfiles()" id="importBtn"></button><input type="file" id="importFile" accept=".json" style="display:none" onchange="importFileHandler(event)"></div>
-  </div></div></div>
+  <div class="panel" id="panel-profiles">
+    <div class="card">
+      <div class="profile-area">
+        <div class="control-row">
+          <div class="control-label" id="saveProfileLabel"></div>
+          <input type="text" id="profileName" class="profile-name-input">
+          <button class="sm-btn" onclick="saveProfile()" id="saveProfileBtn"></button>
+        </div>
+        <div class="control-row">
+          <div class="control-label" id="loadProfileLabel"></div>
+          <select id="profileSelect" style="flex:1" onchange="loadProfile(this.value)">
+            <option value="" id="profileSelectNone"></option>
+          </select>
+          <button class="sm-btn" onclick="deleteProfile()" id="deleteProfileBtn"></button>
+        </div>
+        <div class="divider"></div>
+        <div class="control-row">
+          <div class="control-label" id="exportImportLabel"></div>
+        </div>
+        <div class="control-row">
+          <button class="sm-btn" onclick="exportProfiles()" id="exportBtn"></button>
+          <button class="sm-btn" onclick="importProfiles()" id="importBtn"></button>
+          <input type="file" id="importFile" accept=".json" style="display:none" onchange="importFileHandler(event)">
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Панель QR -->
-  <div class="panel" id="panel-qr"><div class="card"><div class="qr-area">
-    <div class="control-label" id="qrLabel"></div>
-    <canvas class="qr-canvas" id="qrCanvas" width="250" height="250"></canvas>
-    <div id="qrPlaceholder" style="font-size:13px;color:var(--text);"></div>
-    <button class="sm-btn" onclick="downloadQR()" id="downloadQRBtn"></button>
-  </div></div></div>
+  <div class="panel" id="panel-qr">
+    <div class="card">
+      <div class="qr-area">
+        <div class="control-label" id="qrLabel"></div>
+        <canvas class="qr-canvas" id="qrCanvas" width="250" height="250"></canvas>
+        <div id="qrPlaceholder" style="font-size:13px;color:var(--text);"></div>
+        <button class="sm-btn" onclick="downloadQR()" id="downloadQRBtn"></button>
+      </div>
+    </div>
+  </div>
 
   <!-- Панель истории -->
   <div class="panel" id="panel-history">
@@ -351,7 +1127,9 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
           <div class="control-label" id="historyTitleLabel"></div>
           <button class="sm-btn" onclick="clearHistory()" id="clearHistoryBtn"></button>
         </div>
-        <div class="history-list" id="historyList"><div id="historyEmpty" style="color:var(--text); padding: 20px; text-align: center;"></div></div>
+        <div class="history-list" id="historyList">
+          <div id="historyEmpty" style="color:var(--text); padding: 20px; text-align: center;"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -359,15 +1137,45 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.2); }
 <div class="toast" id="toast"></div>
 
 <script>
-// ======================  СЛОВАРЬ ДЛЯ ФРАЗ ======================
 const WORDS = [
-  "aurora","azimuth","aqua","alpine","anchor","apple","archer","arena","aroma","atlas","baker","banana","bandit","basil","beach","bear","beat","beetle","berry","bird","blanket","blaze","bloom","blue","bolt","bonus","boot","brave","bread","brick","bridge","brisk","brush","bubble","buck","buddy","cabin","cactus","camel","camp","canal","candy","carrot","castle","cave","cedar","charm","cheese","chess","chip","cider","circle","clay","clean","cliff","clock","cloud","coast","coconut","coffee","comet","coral","corn","crane","crater","creek","crisp","crow","cube","cycle","dance","delta","desert","dewdrop","dice","dock","dog","dolphin","door","dove","dragon","dream","drift","drum","dune","dust","eagle","echo","edge","elder","elk","ember","engine","epic","fable","face","falcon","fawn","feast","fence","fern","field","fiery","finch","fire","fish","flag","flame","flash","flint","flock","flood","flora","flute","fog","forest","fork","fox","frame","fresh","frog","frost","fruit","fungi","garden","garlic","gem","ghost","giant","glacier","glass","gleam","glow","goat","golden","grain","grape","grass","gravel","green","griffin","grove","guest","gust","harbor","hare","hawk","hazel","heart","hedge","heron","hill","honey","horizon","horse","humble","ice","igloo","ink","iris","iron","island","ivy","jackal","jar","jazz","jewel","judge","jungle","kayak","kernel","kettle","key","kindle","king","kite","kiwi","koala","lagoon","lake","lantern","lava","leaf","lemon","lens","light","lily","lime","lion","lizard","lodge","lotus","lunar","lynx","magic","mango","maple","marble","marsh","meadow","mint","mirror","mist","moose","morning","moss","moth","mountain","mouse","music","nebula","nectar","nest","nova","oak","oasis","ocean","olive","onyx","opal","orange","orchid","ore","osprey","otter","owl","oyster","palm","panda","pearl","pebble","piano","pine","pixel","plaza","plum","polar","poppy","prism","quarry","quartz","quill","rabbit","rain","raven","reef","relic","river","robin","rock","rook","rose","ruin","rust","sage","sail","sand","scale","scout","seal","seed","shadow","shell","shield","shore","silk","silver","skull","sky","slate","sleep","smoke","snail","snake","snow","soap","solar","spark","spear","spice","spider","spirit","spring","star","stone","storm","stream","summer","sun","sunset","swamp","swan","sweet","swift","sword","table","temple","thief","thorn","tide","tiger","toast","tooth","torch","tower","trail","tree","trout","tulip","tundra","twig","valley","vine","violet","volcano","vulture","water","wave","wheat","whisper","wild","willow","wind","wing","winter","wolf","wood","wool","yarn","zebra"
+  "aurora","azimuth","aqua","alpine","anchor","apple","archer","arena","aroma","atlas",
+  "baker","banana","bandit","basil","beach","bear","beat","beetle","berry","bird",
+  "blanket","blaze","bloom","blue","bolt","bonus","boot","brave","bread","brick",
+  "bridge","brisk","brush","bubble","buck","buddy","cabin","cactus","camel","camp",
+  "canal","candy","carrot","castle","cave","cedar","charm","cheese","chess","chip",
+  "cider","circle","clay","clean","cliff","clock","cloud","coast","coconut","coffee",
+  "comet","coral","corn","crane","crater","creek","crisp","crow","cube","cycle",
+  "dance","delta","desert","dewdrop","dice","dock","dog","dolphin","door","dove",
+  "dragon","dream","drift","drum","dune","dust","eagle","echo","edge","elder",
+  "elk","ember","engine","epic","fable","face","falcon","fawn","feast","fence",
+  "fern","field","fiery","finch","fire","fish","flag","flame","flash","flint",
+  "flock","flood","flora","flute","fog","forest","fork","fox","frame","fresh",
+  "frog","frost","fruit","fungi","garden","garlic","gem","ghost","giant","glacier",
+  "glass","gleam","glow","goat","golden","grain","grape","grass","gravel","green",
+  "griffin","grove","guest","gust","harbor","hare","hawk","hazel","heart","hedge",
+  "heron","hill","honey","horizon","horse","humble","ice","igloo","ink","iris",
+  "iron","island","ivy","jackal","jar","jazz","jewel","judge","jungle","kayak",
+  "kernel","kettle","key","kindle","king","kite","kiwi","koala","lagoon","lake",
+  "lantern","lava","leaf","lemon","lens","light","lily","lime","lion","lizard",
+  "lodge","lotus","lunar","lynx","magic","mango","maple","marble","marsh","meadow",
+  "mint","mirror","mist","moose","morning","moss","moth","mountain","mouse","music",
+  "nebula","nectar","nest","nova","oak","oasis","ocean","olive","onyx","opal",
+  "orange","orchid","ore","osprey","otter","owl","oyster","palm","panda","pearl",
+  "pebble","piano","pine","pixel","plaza","plum","polar","poppy","prism","quarry",
+  "quartz","quill","rabbit","rain","raven","reef","relic","river","robin","rock",
+  "rook","rose","ruin","rust","sage","sail","sand","scale","scout","seal",
+  "seed","shadow","shell","shield","shore","silk","silver","skull","sky","slate",
+  "sleep","smoke","snail","snake","snow","soap","solar","spark","spear","spice",
+  "spider","spirit","spring","star","stone","storm","stream","summer","sun","sunset",
+  "swamp","swan","sweet","swift","sword","table","temple","thief","thorn","tide",
+  "tiger","toast","tooth","torch","tower","trail","tree","trout","tulip","tundra",
+  "twig","valley","vine","violet","volcano","vulture","water","wave","wheat","whisper",
+  "wild","willow","wind","wing","winter","wolf","wood","wool","yarn","zebra"
 ];
 const wordList = [...new Set(WORDS)];
 let currentPassword = '', currentPhrase = '', currentPronounce = '';
 let history = [];
 
-// ======================  ЛОКАЛИЗАЦИЯ ======================
 const L = {
   ru: {
     title: 'World of <span class="strikethrough">Tanks</span><span class="arrow">→</span>Passwords',
@@ -733,7 +1541,6 @@ function applyLanguage(lang) {
   currentLang = lang;
   localStorage.setItem('pg_lang', lang);
 
-  // --- Шапка ---
   document.getElementById('mainTitle').innerHTML = t.title;
   document.getElementById('langBtn').innerHTML = t.langBtn;
   document.getElementById('langBtn').setAttribute('aria-label', t.langToggle);
@@ -743,11 +1550,9 @@ function applyLanguage(lang) {
   document.getElementById('projectTelegramLink').textContent = t.projectTelegramLink;
   document.getElementById('themeBtn').setAttribute('aria-label', t.themeToggle);
 
-  // --- Вкладки ---
   const tabLabels = [t.tabPassword, t.tabPhrase, t.tabPronounce, t.tabCheck, t.tabBulk, t.tabProfiles, t.tabQR, t.tabHistory];
   document.querySelectorAll('#mainTabs .tab').forEach((tab, i) => { tab.textContent = tabLabels[i]; });
 
-  // --- Панель пароля ---
   setText('passwordLabel', t.passwordLabel);
   setText('lengthLabel', t.lengthLabel);
   setText('uppercaseLabel', t.uppercaseLabel);
@@ -764,7 +1569,6 @@ function applyLanguage(lang) {
   setText('generatePwdBtn', t.generatePwdBtn);
   setAria('copyBtn', t.copyAria);
 
-  // --- Панель фразы ---
   setText('phraseLabel', t.phraseLabel);
   setText('wordCountLabel', t.wordCountLabel);
   setText('separatorLabel', t.separatorLabel);
@@ -776,7 +1580,6 @@ function applyLanguage(lang) {
   setText('generatePhraseBtn', t.generatePhraseBtn);
   setAria('copyPhraseBtn', t.copyPhraseAria);
 
-  // --- Панель произносимого ---
   setText('pronLabel', t.pronLabel);
   setText('pronLenLabel', t.pronLenLabel);
   setText('pronModeLabel', t.pronModeLabel);
@@ -789,7 +1592,6 @@ function applyLanguage(lang) {
   const pronCopyBtn = document.querySelector('#panel-pronounce .icon-btn[onclick*="copyPronounce()"]');
   if (pronCopyBtn) pronCopyBtn.setAttribute('aria-label', t.copyPronAria);
 
-  // --- Проверка ---
   setText('checkLabel', t.checkLabel);
   setPlaceholder('checkInput', t.checkPlaceholder);
   setText('checkShowBtn', t.checkShowBtn);
@@ -800,7 +1602,6 @@ function applyLanguage(lang) {
   setText('checkCrackLabel', t.checkCrackLabel);
   setText('checkBitsLabel', t.bits);
 
-  // --- Список ---
   setText('bulkCountLabel', t.bulkCountLabel);
   setText('generateBulkBtn', t.generateBulkBtn);
   setText('copyBulkBtn', t.copyBulkBtn);
@@ -810,7 +1611,6 @@ function applyLanguage(lang) {
     bulkList.textContent = t.bulkListPlaceholder;
   }
 
-  // --- Профили ---
   setText('saveProfileLabel', t.saveProfileLabel);
   setPlaceholder('profileName', t.profileNamePlaceholder);
   setText('saveProfileBtn', t.saveProfileBtn);
@@ -819,15 +1619,12 @@ function applyLanguage(lang) {
   setText('exportImportLabel', t.exportImportLabel);
   setText('exportBtn', t.exportBtn);
   setText('importBtn', t.importBtn);
-  // Принудительно перестраиваем селект, чтобы «-- Выберите --» обновился
   refreshProfileSelect();
 
-  // --- QR ---
   setText('qrLabel', t.qrLabel);
   setText('qrPlaceholder', t.qrPlaceholder);
   setText('downloadQRBtn', t.downloadQRBtn);
 
-  // --- История ---
   setText('historyTitleLabel', t.historyTitleLabel);
   setText('clearHistoryBtn', t.clearHistoryBtn);
   if (history.length === 0) {
@@ -836,7 +1633,6 @@ function applyLanguage(lang) {
     emptyDiv.style.display = 'block';
   }
 
-  // --- Обновляем текст стойкости для всех трёх панелей ---
   if (currentPassword && currentPassword !== '—') {
     const charset = getCharset();
     updateStrength(currentPassword, charset.length || 62, 'strengthFill', 'strengthLabel', 'entropyLabel');
@@ -857,9 +1653,20 @@ function applyLanguage(lang) {
   }
 }
 
-function setText(id, text) { const el = document.getElementById(id); if (el) el.textContent = text; }
-function setPlaceholder(id, text) { const el = document.getElementById(id); if (el) el.placeholder = text; }
-function setAria(id, text) { const el = document.getElementById(id); if (el) el.setAttribute('aria-label', text); }
+function setText(id, text) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = text;
+}
+
+function setPlaceholder(id, text) {
+  const el = document.getElementById(id);
+  if (el) el.placeholder = text;
+}
+
+function setAria(id, text) {
+  const el = document.getElementById(id);
+  if (el) el.setAttribute('aria-label', text);
+}
 
 function toggleLanguage() {
   const order = ['ru', 'en', 'ua'];
@@ -868,35 +1675,42 @@ function toggleLanguage() {
   applyLanguage(next);
 }
 
-// ======================  МЕНЮ ПРОЕКТА ======================
 function toggleProjectMenu() {
   const menu = document.getElementById('projectMenu');
   const overlay = document.getElementById('projectOverlay');
-  if (menu.classList.contains('show')) { menu.classList.remove('show'); overlay.classList.remove('show'); }
-  else { menu.classList.add('show'); overlay.classList.add('show'); }
+  if (menu.classList.contains('show')) {
+    menu.classList.remove('show');
+    overlay.classList.remove('show');
+  } else {
+    menu.classList.add('show');
+    overlay.classList.add('show');
+  }
 }
+
 function closeProjectMenu() {
   document.getElementById('projectMenu').classList.remove('show');
   document.getElementById('projectOverlay').classList.remove('show');
 }
+
 document.addEventListener('click', function(e) {
   const menu = document.getElementById('projectMenu');
   const btn = document.getElementById('projectBtn');
-  if (menu.classList.contains('show') && !btn.contains(e.target) && !menu.contains(e.target)) { closeProjectMenu(); }
+  if (menu.classList.contains('show') && !btn.contains(e.target) && !menu.contains(e.target)) {
+    closeProjectMenu();
+  }
 });
 
-// ======================  ТЕМА ======================
 function applyTheme(t) {
   document.documentElement.setAttribute('data-theme', t);
   document.getElementById('themeBtn').textContent = t === 'dark' ? '☀️' : '🌙';
 }
+
 function toggleTheme() {
   const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   localStorage.setItem('pg_theme', newTheme);
   applyTheme(newTheme);
 }
 
-// ======================  ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ======================
 function switchTab(name, el) {
   document.querySelectorAll('#mainTabs .tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
@@ -907,11 +1721,11 @@ function switchTab(name, el) {
   if (name === 'qr') renderQR();
   if (name === 'history') renderHistory();
 }
+
 document.querySelectorAll('#mainTabs .tab').forEach(btn => {
   btn.addEventListener('click', () => switchTab(btn.dataset.tab, btn));
 });
 
-// ======================  КРИПТОСТОЙКИЙ ГСЧ ======================
 function secureRandom(max) {
   if (max <= 1) return 0;
   const arr = new Uint32Array(1);
@@ -920,20 +1734,25 @@ function secureRandom(max) {
   do { crypto.getRandomValues(arr); v = arr[0]; } while (v >= limit);
   return v % max;
 }
+
 function showToast(msg) {
   const el = document.getElementById('toast');
   el.textContent = msg;
   el.classList.add('show');
   setTimeout(() => el.classList.remove('show'), 2000);
 }
+
 function escHtml(s) {
   return s.replace(/[&<>]/g, function(m) {
-    if (m === '&') return '&amp;'; if (m === '<') return '&lt;'; if (m === '>') return '&gt;'; return m;
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    return m;
   });
 }
 
-// ======================  НАБОР СИМВОЛОВ ======================
 const AMBIGUOUS = /[0Oo1lI]/g;
+
 function getCharset() {
   let c = '';
   if (document.getElementById('uppercase').checked) c += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -946,7 +1765,6 @@ function getCharset() {
   return [...new Set(c)].join('');
 }
 
-// ======================  ГЕНЕРАТОР ПАРОЛЕЙ ======================
 function enforceConstraints(pwd, len, charset) {
   const minDigits = parseInt(document.getElementById('minDigits').value) || 0;
   const minSymbols = parseInt(document.getElementById('minSymbols').value) || 0;
@@ -954,6 +1772,7 @@ function enforceConstraints(pwd, len, charset) {
   const digits = (pwd.match(/[0-9]/g) || []).length;
   const symbols = (pwd.match(/[^a-zA-Z0-9]/g) || []).length;
   if (digits >= minDigits && symbols >= minSymbols && (!noRepeat || !/(.)\1/.test(pwd))) return pwd;
+
   for (let attempt = 0; attempt < 30; attempt++) {
     let newPwd = '';
     if (minDigits + minSymbols > len) break;
@@ -961,15 +1780,29 @@ function enforceConstraints(pwd, len, charset) {
     let remaining = len;
     while (remaining > 0) {
       const char = charset[secureRandom(charset.length)];
-      if (neededDigits > 0 && /[0-9]/.test(char)) { newPwd += char; neededDigits--; remaining--; continue; }
-      if (neededSymbols > 0 && /[^a-zA-Z0-9]/.test(char)) { newPwd += char; neededSymbols--; remaining--; continue; }
-      if (remaining > neededDigits + neededSymbols) { newPwd += char; remaining--; }
+      if (neededDigits > 0 && /[0-9]/.test(char)) {
+        newPwd += char;
+        neededDigits--;
+        remaining--;
+        continue;
+      }
+      if (neededSymbols > 0 && /[^a-zA-Z0-9]/.test(char)) {
+        newPwd += char;
+        neededSymbols--;
+        remaining--;
+        continue;
+      }
+      if (remaining > neededDigits + neededSymbols) {
+        newPwd += char;
+        remaining--;
+      }
     }
     if (noRepeat && /(.)\1/.test(newPwd)) continue;
     if ((newPwd.match(/[0-9]/g) || []).length >= minDigits && (newPwd.match(/[^a-zA-Z0-9]/g) || []).length >= minSymbols) return newPwd;
   }
   return pwd;
 }
+
 function generateOne(len, charset) {
   const guarantee = document.getElementById('guarantee').checked;
   const sets = [];
@@ -977,28 +1810,40 @@ function generateOne(len, charset) {
   if (document.getElementById('lowercase').checked) sets.push('abcdefghijklmnopqrstuvwxyz'.replace(AMBIGUOUS, ''));
   if (document.getElementById('numbers').checked)   sets.push('0123456789'.replace(AMBIGUOUS, ''));
   if (document.getElementById('symbols').checked)   sets.push('!@#$%^&*()-_=+[]{}|;:,.<>?');
+
   let pwd = '';
   if (guarantee && sets.length && len >= sets.length) {
     const mandatory = sets.map(s => s[secureRandom(s.length)]);
     for (let i = 0; i < len - mandatory.length; i++) pwd += charset[secureRandom(charset.length)];
     const combined = (pwd + mandatory.join('')).split('');
-    for (let i = combined.length - 1; i > 0; i--) { const j = secureRandom(i + 1); [combined[i], combined[j]] = [combined[j], combined[i]]; }
+    for (let i = combined.length - 1; i > 0; i--) {
+      const j = secureRandom(i + 1);
+      [combined[i], combined[j]] = [combined[j], combined[i]];
+    }
     pwd = combined.join('');
-  } else { for (let i = 0; i < len; i++) pwd += charset[secureRandom(charset.length)]; }
+  } else {
+    for (let i = 0; i < len; i++) pwd += charset[secureRandom(charset.length)];
+  }
   return enforceConstraints(pwd, len, charset);
 }
+
 function generate() {
   const len = parseInt(document.getElementById('lengthSlider').value);
   const charset = getCharset();
-  if (!charset) { showToast(L[currentLang].toastNoCharset); return; }
+  if (!charset) {
+    showToast(L[currentLang].toastNoCharset);
+    return;
+  }
   currentPassword = generateOne(len, charset);
   document.getElementById('passwordText').textContent = currentPassword;
   updateStrength(currentPassword, charset.length, 'strengthFill', 'strengthLabel', 'entropyLabel');
   addToHistory(currentPassword);
 }
-function onLengthChange() { document.getElementById('lengthValue').textContent = document.getElementById('lengthSlider').value; }
 
-// ======================  ФРАЗЫ ======================
+function onLengthChange() {
+  document.getElementById('lengthValue').textContent = document.getElementById('lengthSlider').value;
+}
+
 function generatePhrase() {
   const count = parseInt(document.getElementById('wordCountSlider').value);
   const sep = document.getElementById('separator').value;
@@ -1010,7 +1855,10 @@ function generatePhrase() {
   const cased = capitalize ? words.map(w => w.charAt(0).toUpperCase() + w.slice(1)) : words;
   let phrase = cased.join(sep);
   if (addNum) phrase += secureRandom(10);
-  if (addSym) { const syms = '!@#$%^&*'; phrase += syms[secureRandom(syms.length)]; }
+  if (addSym) {
+    const syms = '!@#$%^&*';
+    phrase += syms[secureRandom(syms.length)];
+  }
   currentPhrase = phrase;
   document.getElementById('phraseText').textContent = phrase;
   let entropyBits = count * Math.log2(wordList.length);
@@ -1019,23 +1867,31 @@ function generatePhrase() {
   updatePhraseStrength(entropyBits, 'phraseStrengthFill', 'phraseStrengthLabel', 'phraseEntropyLabel');
   addToHistory(phrase);
 }
-function onWordCountChange() { document.getElementById('wordCountValue').textContent = document.getElementById('wordCountSlider').value; }
 
-// ======================  ПРОИЗНОСИМЫЕ ======================
+function onWordCountChange() {
+  document.getElementById('wordCountValue').textContent = document.getElementById('wordCountSlider').value;
+}
+
 const CONSONANTS = "bcdfghjklmnpqrstvwxz";
 const VOWELS = "aeiou";
+
 function generatePronounceable(len, mode, capitalize, addNumber) {
   let result = "";
   while (result.length < len) {
-    if (mode === "cv") result += CONSONANTS[secureRandom(CONSONANTS.length)] + VOWELS[secureRandom(VOWELS.length)];
-    else if (mode === "cvc") result += CONSONANTS[secureRandom(CONSONANTS.length)] + VOWELS[secureRandom(VOWELS.length)] + CONSONANTS[secureRandom(CONSONANTS.length)];
-    else result += VOWELS[secureRandom(VOWELS.length)] + CONSONANTS[secureRandom(CONSONANTS.length)] + VOWELS[secureRandom(VOWELS.length)];
+    if (mode === "cv") {
+      result += CONSONANTS[secureRandom(CONSONANTS.length)] + VOWELS[secureRandom(VOWELS.length)];
+    } else if (mode === "cvc") {
+      result += CONSONANTS[secureRandom(CONSONANTS.length)] + VOWELS[secureRandom(VOWELS.length)] + CONSONANTS[secureRandom(CONSONANTS.length)];
+    } else {
+      result += VOWELS[secureRandom(VOWELS.length)] + CONSONANTS[secureRandom(CONSONANTS.length)] + VOWELS[secureRandom(VOWELS.length)];
+    }
   }
   result = result.substring(0, len);
   if (capitalize) result = result.charAt(0).toUpperCase() + result.slice(1);
   if (addNumber) result += secureRandom(10);
   return result;
 }
+
 function generatePronounce() {
   const len = parseInt(document.getElementById('pronLenSlider').value);
   const mode = document.getElementById('pronMode').value;
@@ -1047,41 +1903,102 @@ function generatePronounce() {
   updateStrength(currentPronounce, pool, 'pronStrengthFill', 'pronStrengthLabel', 'pronEntropyLabel');
   addToHistory(currentPronounce);
 }
-function pronLenChange() { document.getElementById('pronLenValue').textContent = document.getElementById('pronLenSlider').value; }
-function copyPronounce() { if (currentPronounce) { navigator.clipboard.writeText(currentPronounce); showToast(L[currentLang].toastCopied); } }
 
-// ======================  ОЦЕНКА СТОЙКОСТИ ======================
+function pronLenChange() {
+  document.getElementById('pronLenValue').textContent = document.getElementById('pronLenSlider').value;
+}
+
+function copyPronounce() {
+  if (currentPronounce) {
+    navigator.clipboard.writeText(currentPronounce);
+    showToast(L[currentLang].toastCopied);
+  }
+}
+
 function updateStrength(pwd, poolSize, fillId, labelId, entropyId) {
   const entropy = pwd.length * Math.log2(Math.max(poolSize, 2));
   const t = L[currentLang];
   let score, text, color;
-  if (entropy < 40) { score = 18; text = t.weak; color = '#ef4444'; }
-  else if (entropy < 60) { score = 40; text = t.medium; color = '#f97316'; }
-  else if (entropy < 80) { score = 62; text = t.good; color = '#eab308'; }
-  else if (entropy < 100) { score = 82; text = t.strong; color = '#22c55e'; }
-  else { score = 100; text = t.excellent; color = '#16a34a'; }
-  const fill = document.getElementById(fillId); if (fill) { fill.style.width = score + '%'; fill.style.background = color; }
-  const lbl = document.getElementById(labelId); if (lbl) { lbl.style.color = color; lbl.textContent = text; }
-  const ent = document.getElementById(entropyId); if (ent) ent.textContent = Math.round(entropy) + ' ' + t.bits;
+  if (entropy < 40) {
+    score = 18;
+    text = t.weak;
+    color = '#ef4444';
+  } else if (entropy < 60) {
+    score = 40;
+    text = t.medium;
+    color = '#f97316';
+  } else if (entropy < 80) {
+    score = 62;
+    text = t.good;
+    color = '#eab308';
+  } else if (entropy < 100) {
+    score = 82;
+    text = t.strong;
+    color = '#22c55e';
+  } else {
+    score = 100;
+    text = t.excellent;
+    color = '#16a34a';
+  }
+  const fill = document.getElementById(fillId);
+  if (fill) {
+    fill.style.width = score + '%';
+    fill.style.background = color;
+  }
+  const lbl = document.getElementById(labelId);
+  if (lbl) {
+    lbl.style.color = color;
+    lbl.textContent = text;
+  }
+  const ent = document.getElementById(entropyId);
+  if (ent) ent.textContent = Math.round(entropy) + ' ' + t.bits;
 }
+
 function updatePhraseStrength(entropyBits, fillId, labelId, entropyId) {
   const t = L[currentLang];
   let score, text, color;
-  if (entropyBits < 40) { score = 18; text = t.weak; color = '#ef4444'; }
-  else if (entropyBits < 60) { score = 40; text = t.medium; color = '#f97316'; }
-  else if (entropyBits < 80) { score = 62; text = t.good; color = '#eab308'; }
-  else if (entropyBits < 100) { score = 82; text = t.strong; color = '#22c55e'; }
-  else { score = 100; text = t.excellent; color = '#16a34a'; }
-  const fill = document.getElementById(fillId); if (fill) { fill.style.width = score + '%'; fill.style.background = color; }
-  const lbl = document.getElementById(labelId); if (lbl) { lbl.style.color = color; lbl.textContent = text; }
-  const ent = document.getElementById(entropyId); if (ent) ent.textContent = Math.round(entropyBits) + ' ' + t.bits;
+  if (entropyBits < 40) {
+    score = 18;
+    text = t.weak;
+    color = '#ef4444';
+  } else if (entropyBits < 60) {
+    score = 40;
+    text = t.medium;
+    color = '#f97316';
+  } else if (entropyBits < 80) {
+    score = 62;
+    text = t.good;
+    color = '#eab308';
+  } else if (entropyBits < 100) {
+    score = 82;
+    text = t.strong;
+    color = '#22c55e';
+  } else {
+    score = 100;
+    text = t.excellent;
+    color = '#16a34a';
+  }
+  const fill = document.getElementById(fillId);
+  if (fill) {
+    fill.style.width = score + '%';
+    fill.style.background = color;
+  }
+  const lbl = document.getElementById(labelId);
+  if (lbl) {
+    lbl.style.color = color;
+    lbl.textContent = text;
+  }
+  const ent = document.getElementById(entropyId);
+  if (ent) ent.textContent = Math.round(entropyBits) + ' ' + t.bits;
 }
 
-// ======================  ПРОВЕРКА ПАРОЛЯ ======================
 function checkPassword() {
   const val = document.getElementById('checkInput').value;
   const resultDiv = document.getElementById('checkResult');
-  if (!val) { document.getElementById('checkStrengthLabel').textContent = '—'; return; }
+  if (!val) {
+    document.getElementById('checkStrengthLabel').textContent = '—';
+    return;
+  }
   let pool = 0, types = [];
   if (/[a-z]/.test(val)) { pool += 26; types.push('a-z'); }
   if (/[A-Z]/.test(val)) { pool += 26; types.push('A-Z'); }
@@ -1095,6 +2012,7 @@ function checkPassword() {
   const guessesPerSec = 1e10, seconds = Math.pow(2, entropy) / guessesPerSec;
   document.getElementById('crackTime').textContent = formatTime(seconds);
 }
+
 function formatTime(sec) {
   const t = L[currentLang];
   if (sec < 1) return t.instant;
@@ -1105,13 +2023,19 @@ function formatTime(sec) {
   if (sec < 3.15e13) return Math.round(sec / 3.15e7) + ' ' + t.year;
   return t.forever;
 }
-function toggleCheckVisibility() { const i = document.getElementById('checkInput'); i.type = i.type === 'password' ? 'text' : 'password'; }
 
-// ======================  HIBP ======================
+function toggleCheckVisibility() {
+  const i = document.getElementById('checkInput');
+  i.type = i.type === 'password' ? 'text' : 'password';
+}
+
 async function checkHIBP() {
   const t = L[currentLang];
   const pwd = document.getElementById('checkInput').value;
-  if (!pwd) { showToast(t.toastEnterPwd); return; }
+  if (!pwd) {
+    showToast(t.toastEnterPwd);
+    return;
+  }
   const encoder = new TextEncoder();
   const hashBuffer = await crypto.subtle.digest('SHA-1', encoder.encode(pwd));
   const hashArray = Array.from(new Uint8Array(hashBuffer));
@@ -1126,20 +2050,26 @@ async function checkHIBP() {
     resultDiv.style.display = 'block';
     resultDiv.innerHTML = count > 0 ? t.hibpFound(count) : t.hibpNotFound;
     resultDiv.style.color = count ? 'var(--red)' : 'var(--green)';
-  } catch (e) { showToast(t.toastHIBPError); }
+  } catch (e) {
+    showToast(t.toastHIBPError);
+  }
 }
 
-// ======================  ПРОФИЛИ ======================
 function saveProfile() {
   const t = L[currentLang];
   const name = document.getElementById('profileName').value.trim();
   if (!name) return showToast(t.toastEnterProfileName);
   const settings = {
-    len: document.getElementById('lengthSlider').value, uppercase: document.getElementById('uppercase').checked,
-    lowercase: document.getElementById('lowercase').checked, numbers: document.getElementById('numbers').checked,
-    symbols: document.getElementById('symbols').checked, noambig: document.getElementById('noambig').checked,
-    guarantee: document.getElementById('guarantee').checked, noRepeat: document.getElementById('noRepeat').checked,
-    minDigits: document.getElementById('minDigits').value, minSymbols: document.getElementById('minSymbols').value,
+    len: document.getElementById('lengthSlider').value,
+    uppercase: document.getElementById('uppercase').checked,
+    lowercase: document.getElementById('lowercase').checked,
+    numbers: document.getElementById('numbers').checked,
+    symbols: document.getElementById('symbols').checked,
+    noambig: document.getElementById('noambig').checked,
+    guarantee: document.getElementById('guarantee').checked,
+    noRepeat: document.getElementById('noRepeat').checked,
+    minDigits: document.getElementById('minDigits').value,
+    minSymbols: document.getElementById('minSymbols').value,
     customChars: document.getElementById('customChars').value
   };
   const profiles = JSON.parse(localStorage.getItem('pg_profiles') || '{}');
@@ -1148,120 +2078,270 @@ function saveProfile() {
   refreshProfileSelect();
   showToast(t.toastProfileSaved);
 }
+
 function refreshProfileSelect() {
   const t = L[currentLang];
   const profiles = JSON.parse(localStorage.getItem('pg_profiles') || '{}');
   const sel = document.getElementById('profileSelect');
   sel.innerHTML = `<option value="">${t.profileSelectNone}</option>`;
-  for (const name of Object.keys(profiles)) { sel.innerHTML += `<option value="${escHtml(name)}">${escHtml(name)}</option>`; }
+  for (const name of Object.keys(profiles)) {
+    sel.innerHTML += `<option value="${escHtml(name)}">${escHtml(name)}</option>`;
+  }
 }
+
 function loadProfile(name) {
-  const t = L[currentLang]; if (!name) return;
+  const t = L[currentLang];
+  if (!name) return;
   const profiles = JSON.parse(localStorage.getItem('pg_profiles') || '{}');
-  const s = profiles[name]; if (!s) return;
-  document.getElementById('lengthSlider').value = s.len; document.getElementById('uppercase').checked = s.uppercase;
-  document.getElementById('lowercase').checked = s.lowercase; document.getElementById('numbers').checked = s.numbers;
-  document.getElementById('symbols').checked = s.symbols; document.getElementById('noambig').checked = s.noambig;
-  document.getElementById('guarantee').checked = s.guarantee; document.getElementById('noRepeat').checked = s.noRepeat;
-  document.getElementById('minDigits').value = s.minDigits; document.getElementById('minSymbols').value = s.minSymbols;
+  const s = profiles[name];
+  if (!s) return;
+  document.getElementById('lengthSlider').value = s.len;
+  document.getElementById('uppercase').checked = s.uppercase;
+  document.getElementById('lowercase').checked = s.lowercase;
+  document.getElementById('numbers').checked = s.numbers;
+  document.getElementById('symbols').checked = s.symbols;
+  document.getElementById('noambig').checked = s.noambig;
+  document.getElementById('guarantee').checked = s.guarantee;
+  document.getElementById('noRepeat').checked = s.noRepeat;
+  document.getElementById('minDigits').value = s.minDigits;
+  document.getElementById('minSymbols').value = s.minSymbols;
   document.getElementById('customChars').value = s.customChars || '';
-  onLengthChange(); showToast(t.toastProfileLoaded(name));
+  onLengthChange();
+  showToast(t.toastProfileLoaded(name));
 }
+
 function deleteProfile() {
-  const t = L[currentLang]; const name = document.getElementById('profileSelect').value; if (!name) return;
+  const t = L[currentLang];
+  const name = document.getElementById('profileSelect').value;
+  if (!name) return;
   const profiles = JSON.parse(localStorage.getItem('pg_profiles') || '{}');
-  delete profiles[name]; localStorage.setItem('pg_profiles', JSON.stringify(profiles));
-  refreshProfileSelect(); showToast(t.toastProfileDeleted);
+  delete profiles[name];
+  localStorage.setItem('pg_profiles', JSON.stringify(profiles));
+  refreshProfileSelect();
+  showToast(t.toastProfileDeleted);
 }
+
 function exportProfiles() {
-  const t = L[currentLang]; const data = localStorage.getItem('pg_profiles');
-  if (!data) { showToast(t.toastNoProfiles); return; }
+  const t = L[currentLang];
+  const data = localStorage.getItem('pg_profiles');
+  if (!data) {
+    showToast(t.toastNoProfiles);
+    return;
+  }
   const blob = new Blob([data], { type: 'application/json' });
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'password_profiles.json'; a.click(); URL.revokeObjectURL(a.href);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'password_profiles.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
-function importProfiles() { document.getElementById('importFile').click(); }
+
+function importProfiles() {
+  document.getElementById('importFile').click();
+}
+
 function importFileHandler(e) {
-  const t = L[currentLang]; const file = e.target.files[0]; if (!file) return;
+  const t = L[currentLang];
+  const file = e.target.files[0];
+  if (!file) return;
   const reader = new FileReader();
   reader.onload = ev => {
     try {
       const obj = JSON.parse(ev.target.result);
-      if (typeof obj === 'object') { localStorage.setItem('pg_profiles', JSON.stringify(obj)); refreshProfileSelect(); showToast(t.toastProfilesImported); }
-      else throw new Error();
-    } catch (e) { showToast(t.toastImportError); }
+      if (typeof obj === 'object') {
+        localStorage.setItem('pg_profiles', JSON.stringify(obj));
+        refreshProfileSelect();
+        showToast(t.toastProfilesImported);
+      } else throw new Error();
+    } catch (e) {
+      showToast(t.toastImportError);
+    }
   };
   reader.readAsText(file);
 }
 
-// ======================  СПИСОК ======================
 function generateBulk() {
-  const t = L[currentLang]; const count = parseInt(document.getElementById('bulkCountSlider').value);
-  const charset = getCharset(); if (!charset) { showToast(t.toastBulkNoCharset); return; }
+  const t = L[currentLang];
+  const count = parseInt(document.getElementById('bulkCountSlider').value);
+  const charset = getCharset();
+  if (!charset) {
+    showToast(t.toastBulkNoCharset);
+    return;
+  }
   const len = parseInt(document.getElementById('lengthSlider').value);
-  const list = []; for (let i = 0; i < count; i++) list.push(generateOne(len, charset));
+  const list = [];
+  for (let i = 0; i < count; i++) list.push(generateOne(len, charset));
   document.getElementById('bulkList').textContent = list.join('\n');
 }
+
 function copyBulk() {
-  const t = L[currentLang]; const txt = document.getElementById('bulkList').textContent;
-  if (txt && txt !== t.bulkListPlaceholder) navigator.clipboard.writeText(txt).then(() => showToast(t.toastBulkCopied));
-}
-function downloadBulk() {
-  const t = L[currentLang]; const txt = document.getElementById('bulkList').textContent;
+  const t = L[currentLang];
+  const txt = document.getElementById('bulkList').textContent;
   if (txt && txt !== t.bulkListPlaceholder) {
-    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([txt], { type: 'text/plain' })); a.download = 'passwords.txt'; a.click(); URL.revokeObjectURL(a.href); showToast(t.toastBulkDownloaded);
+    navigator.clipboard.writeText(txt).then(() => showToast(t.toastBulkCopied));
   }
 }
 
-// ======================  ИСТОРИЯ ======================
+function downloadBulk() {
+  const t = L[currentLang];
+  const txt = document.getElementById('bulkList').textContent;
+  if (txt && txt !== t.bulkListPlaceholder) {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([txt], { type: 'text/plain' }));
+    a.download = 'passwords.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    showToast(t.toastBulkDownloaded);
+  }
+}
+
 function addToHistory(pwd) {
-  history.unshift({ password: pwd, len: pwd.length, time: new Date().toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' }) });
+  history.unshift({
+    password: pwd,
+    len: pwd.length,
+    time: new Date().toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
+  });
   if (history.length > 15) history.pop();
   renderHistory();
 }
-function renderHistory() {
-  const t = L[currentLang]; const listDiv = document.getElementById('historyList'); const emptyDiv = document.getElementById('historyEmpty');
-  if (!history.length) { listDiv.innerHTML = ''; emptyDiv.textContent = t.historyEmpty; emptyDiv.style.display = 'block'; return; }
-  emptyDiv.style.display = 'none';
-  listDiv.innerHTML = history.map((item, i) => `<div class="history-item" onclick="copyHistoryItem(${i})"><span class="history-pass">${escHtml(item.password)}</span><div class="history-meta"><span class="badge">${item.len}</span><span class="badge">${item.time}</span></div></div>`).join('');
-}
-function copyHistoryItem(i) { navigator.clipboard.writeText(history[i].password).then(() => showToast(L[currentLang].toastCopied)); }
-function clearHistory() { history = []; renderHistory(); }
 
-// ======================  QR-КОД ======================
-function loadQRLibrary(callback) { if (window.QRCodeGen) { callback(); return; } const script = document.createElement('script'); script.src = 'https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js'; script.onload = () => { callback(); }; document.head.appendChild(script); }
-function drawQR(text, canvas) {
-  if (!window.QRCodeGen) { loadQRLibrary(() => drawQR(text, canvas)); return; }
-  try {
-    const qr = QRCodeGen(0, 'M'); qr.addData(text); qr.make();
-    const cellSize = 4, margin = 4, modules = qr.getModuleCount(), size = modules * cellSize + margin * 2;
-    canvas.width = size; canvas.height = size; const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, size, size); ctx.fillStyle = '#000';
-    for (let row = 0; row < modules; row++) { for (let col = 0; col < modules; col++) { if (qr.isDark(row, col)) { ctx.fillRect(margin + col * cellSize, margin + row * cellSize, cellSize, cellSize); } } }
-    canvas.style.width = '200px'; canvas.style.height = '200px'; canvas.style.display = 'block';
-  } catch (e) { console.error(e); const ctx = canvas.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.fillStyle = '#000'; ctx.font = '12px monospace'; ctx.fillText('Ошибка QR', 10, 50); }
+function renderHistory() {
+  const t = L[currentLang];
+  const listDiv = document.getElementById('historyList');
+  const emptyDiv = document.getElementById('historyEmpty');
+  if (!history.length) {
+    listDiv.innerHTML = '';
+    emptyDiv.textContent = t.historyEmpty;
+    emptyDiv.style.display = 'block';
+    return;
+  }
+  emptyDiv.style.display = 'none';
+  listDiv.innerHTML = history.map((item, i) =>
+    `<div class="history-item" onclick="copyHistoryItem(${i})">
+      <span class="history-pass">${escHtml(item.password)}</span>
+      <div class="history-meta">
+        <span class="badge">${item.len}</span>
+        <span class="badge">${item.time}</span>
+      </div>
+    </div>`
+  ).join('');
 }
+
+function copyHistoryItem(i) {
+  navigator.clipboard.writeText(history[i].password).then(() => showToast(L[currentLang].toastCopied));
+}
+
+function clearHistory() {
+  history = [];
+  renderHistory();
+}
+
+function loadQRLibrary(callback) {
+  if (window.QRCodeGen) {
+    callback();
+    return;
+  }
+  const script = document.createElement('script');
+  script.src = 'https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js';
+  script.onload = () => { callback(); };
+  document.head.appendChild(script);
+}
+
+function drawQR(text, canvas) {
+  if (!window.QRCodeGen) {
+    loadQRLibrary(() => drawQR(text, canvas));
+    return;
+  }
+  try {
+    const qr = QRCodeGen(0, 'M');
+    qr.addData(text);
+    qr.make();
+    const cellSize = 4, margin = 4;
+    const modules = qr.getModuleCount();
+    const size = modules * cellSize + margin * 2;
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, size, size);
+    ctx.fillStyle = '#000';
+    for (let row = 0; row < modules; row++) {
+      for (let col = 0; col < modules; col++) {
+        if (qr.isDark(row, col)) {
+          ctx.fillRect(margin + col * cellSize, margin + row * cellSize, cellSize, cellSize);
+        }
+      }
+    }
+    canvas.style.width = '200px';
+    canvas.style.height = '200px';
+    canvas.style.display = 'block';
+  } catch (e) {
+    console.error(e);
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#000';
+    ctx.font = '12px monospace';
+    ctx.fillText('Ошибка QR', 10, 50);
+  }
+}
+
 function renderQR() {
   const pass = currentPassword || currentPhrase || currentPronounce;
-  const canvas = document.getElementById('qrCanvas'), placeholder = document.getElementById('qrPlaceholder');
-  if (!pass) { placeholder.style.display = 'block'; canvas.style.display = 'none'; return; }
-  placeholder.style.display = 'none'; canvas.style.display = 'block'; drawQR(pass, canvas);
+  const canvas = document.getElementById('qrCanvas');
+  const placeholder = document.getElementById('qrPlaceholder');
+  if (!pass) {
+    placeholder.style.display = 'block';
+    canvas.style.display = 'none';
+    return;
+  }
+  placeholder.style.display = 'none';
+  canvas.style.display = 'block';
+  drawQR(pass, canvas);
 }
-function downloadQR() {
-  const t = L[currentLang]; const canvas = document.getElementById('qrCanvas');
-  if (canvas.style.display === 'none') { showToast(t.toastNoPassQR); return; }
-  setTimeout(() => { const link = document.createElement('a'); link.download = 'password-qr.png'; link.href = canvas.toDataURL('image/png'); link.click(); showToast(t.toastQRSaved); }, 50);
-}
-function copyPassword() { if (currentPassword) { navigator.clipboard.writeText(currentPassword); showToast(L[currentLang].toastCopied); } }
-function copyPhrase() { if (currentPhrase) { navigator.clipboard.writeText(currentPhrase); showToast(L[currentLang].toastCopied); } }
 
-// ======================  ИНИЦИАЛИЗАЦИЯ ======================
-function init() {
-  currentLang = detectLanguage(); localStorage.setItem('pg_lang', currentLang);
-  applyLanguage(currentLang);
-  const savedTheme = localStorage.getItem('pg_theme') || 'light'; applyTheme(savedTheme);
-  refreshProfileSelect();
-  generate(); generatePhrase(); generatePronounce();
+function downloadQR() {
+  const t = L[currentLang];
+  const canvas = document.getElementById('qrCanvas');
+  if (canvas.style.display === 'none') {
+    showToast(t.toastNoPassQR);
+    return;
+  }
+  setTimeout(() => {
+    const link = document.createElement('a');
+    link.download = 'password-qr.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    showToast(t.toastQRSaved);
+  }, 50);
 }
+
+function copyPassword() {
+  if (currentPassword) {
+    navigator.clipboard.writeText(currentPassword);
+    showToast(L[currentLang].toastCopied);
+  }
+}
+
+function copyPhrase() {
+  if (currentPhrase) {
+    navigator.clipboard.writeText(currentPhrase);
+    showToast(L[currentLang].toastCopied);
+  }
+}
+
+function init() {
+  currentLang = detectLanguage();
+  localStorage.setItem('pg_lang', currentLang);
+  applyLanguage(currentLang);
+  const savedTheme = localStorage.getItem('pg_theme') || 'light';
+  applyTheme(savedTheme);
+  refreshProfileSelect();
+  generate();
+  generatePhrase();
+  generatePronounce();
+}
+
 init();
 </script>
 </body>
