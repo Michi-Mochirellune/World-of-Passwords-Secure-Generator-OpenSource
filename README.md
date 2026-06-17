@@ -65,6 +65,9 @@ Vanilla JS, Web Crypto API, HIBP API, QR Code Generator, CSS Custom Properties.
 GNU General Public License v3.0
 
 ✅ Можно использовать, изменять, распространять
+
 ✅ Можно встраивать в коммерческие проекты
+
 ❌ Нельзя закрыть исходный код и продавать как проприетарный продукт
+
 ❌ Производные проекты — тоже под GPL
