@@ -55,7 +55,6 @@
 git clone https://github.com/Michi-Mochirellune/World-of-Passwords-Secure-Generator-OpenSource.git
 # Открой index.html в браузере
 ```
-Никаких зависимостей, сборщиков или серверов.
 
 ### 🛠 Технологии
 
