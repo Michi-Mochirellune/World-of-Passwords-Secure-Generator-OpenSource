@@ -51,17 +51,9 @@
 
 Открой в браузере: https://michi-mochirellune.github.io/World-of-Passwords-Secure-Generator-OpenSource/
 
-Или локально:
-
-```bash
-git clone https://github.com/Michi-Mochirellune/World-of-Passwords-Secure-Generator-OpenSource.git
-# Открой index.html в браузере
-```
-
 ### 🛠 Технологии
 
 Vanilla JS, Web Crypto API, HIBP API, QR Code Generator, CSS Custom Properties.
-
 
 ## 📄 Лицензия
 GNU General Public License v3.0
