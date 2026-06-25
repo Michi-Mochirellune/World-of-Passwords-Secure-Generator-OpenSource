@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>World of Passwords — генератор паролей с проверкой утечек</title>
-<meta name="description" content="Локальный генератор паролей с проверкой утечек HIBP, произносимыми паролями, парольными фразами и профилями настроек. Работает полностью в браузере, без серверов.">
+<meta name="description" content="Локальный генератор паролей с проверкой утечек HIBP, произносимыми паролями. Работает полностью в браузере, без серверов.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://Michi-Mochirellune.github.io/World-of-Passwords-Secure-Generator-OpenSource/">
 
@@ -16,6 +16,10 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="World of Passwords — генератор паролей">
 <meta name="twitter:description" content="Локальный генератор паролей с проверкой утечек HIBP">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="https://raw.githubusercontent.com/Michi-Mochirellune/World-of-Passwords-Secure-Generator-OpenSource/main/World-of-Passwords/icon-192.png">
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Michi-Mochirellune/World-of-Passwords-Secure-Generator-OpenSource/main/World-of-Passwords/icon-192.png">
+<meta name="theme-color" content="#2563eb">
 
 <style>
 *,
@@ -26,7 +30,6 @@
   padding: 0;
 }
 
-/* ---------- СВЕТЛАЯ ТЕМА ---------- */
 [data-theme="light"] {
   --bg-image: url('https://raw.githubusercontent.com/Michi-Mochirellune/World-of-Passwords-Secure-Generator-OpenSource/main/World-of-Passwords/white.jpg');
   --bg-color: #ffffff;
@@ -52,7 +55,6 @@
   --title-plate-bg: rgba(255, 255, 255, 0.8);
 }
 
-/* ---------- ТЁМНАЯ ТЕМА ---------- */
 [data-theme="dark"] {
   --bg-image: url('https://raw.githubusercontent.com/Michi-Mochirellune/World-of-Passwords-Secure-Generator-OpenSource/main/World-of-Passwords/black.jpg');
   --bg-color: #0f0f0f;
@@ -93,7 +95,6 @@ body {
   padding: 32px 16px 48px;
   -webkit-font-smoothing: antialiased;
   transition: background-color 0.25s, color 0.25s;
-  will-change: auto;
 }
 
 .wrap {
@@ -104,7 +105,6 @@ body {
   gap: 12px;
 }
 
-/* Шапка */
 .header {
   display: flex;
   align-items: center;
@@ -146,7 +146,6 @@ body {
   flex-shrink: 0;
 }
 
-/* Кнопка языка */
 .lang-btn {
   padding: 6px 10px;
   border: 1px solid var(--border);
@@ -167,7 +166,6 @@ body {
   background: var(--surface2);
 }
 
-/* Кнопка Проект⭐ */
 .project-btn {
   padding: 6px 10px;
   border: 1px solid var(--project-btn-hover);
@@ -189,7 +187,6 @@ body {
   background: var(--project-btn-hover);
 }
 
-/* Меню проекта */
 .project-menu {
   display: none;
   position: fixed;
@@ -257,7 +254,6 @@ body {
   display: block;
 }
 
-/* Кнопка темы */
 .theme-btn {
   width: 40px;
   height: 40px;
@@ -279,10 +275,9 @@ body {
   transform: scale(1.08);
 }
 
-/* Вкладки */
-.tabs {
+/* Сегментный переключатель */
+.segment-tabs {
   display: flex;
-  flex-wrap: wrap;
   background: var(--surface);
   border: 1px solid var(--border);
   padding: 4px;
@@ -290,30 +285,29 @@ body {
   box-shadow: var(--shadow);
 }
 
-.tab {
-  flex: 1 0 auto;
+.segment-tab {
+  flex: 1;
   padding: 8px 4px;
   border: none;
   background: transparent;
   color: var(--text);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
   white-space: nowrap;
+  text-align: center;
 }
 
-.tab.active {
+.segment-tab.active {
   background: var(--accent);
   color: #fff;
 }
 
-.tab:not(.active):hover {
+.segment-tab:not(.active):hover {
   background: var(--surface2);
-  color: var(--text);
 }
 
-/* Карточки */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -321,7 +315,6 @@ body {
   overflow: hidden;
 }
 
-/* Отображение пароля */
 .password-display {
   padding: 20px;
   border-bottom: 1px solid var(--border);
@@ -376,16 +369,8 @@ body {
 
 .icon-btn:hover {
   background: var(--border);
-  color: var(--text);
 }
 
-.icon-btn.copied {
-  background: var(--green-soft);
-  border-color: var(--green);
-  color: var(--green);
-}
-
-/* Шкала стойкости */
 .strength-area {
   padding: 12px 20px;
   border-bottom: 1px solid var(--border);
@@ -427,7 +412,6 @@ body {
   margin-top: 1px;
 }
 
-/* Кнопка генерации внутри карточки */
 .generate-row {
   padding: 14px 20px;
   border-bottom: 1px solid var(--border);
@@ -453,15 +437,8 @@ body {
   opacity: 0.87;
 }
 
-/* Контролы */
 .controls,
-.phrase-controls,
-.check-area,
-.bulk-area,
-.qr-area,
-.profile-area,
-.pronounce-area,
-.history-area {
+.check-area {
   padding: 18px 20px;
   display: flex;
   flex-direction: column;
@@ -482,53 +459,12 @@ body {
   user-select: none;
 }
 
-.control-label small {
-  font-size: 12px;
-  color: var(--text);
-  display: block;
-  margin-top: 1px;
-}
-
 .length-right {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.length-value {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--accent-text);
-  min-width: 26px;
-  text-align: center;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Ползунки */
-input[type="range"] {
-  -webkit-appearance: none;
-  width: 130px;
-  height: 4px;
-  background: var(--surface2);
-  outline: none;
-  cursor: pointer;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 16px;
-  height: 16px;
-  background: var(--accent);
-  cursor: pointer;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-  transition: transform 0.1s;
-}
-
-input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-}
-
-/* Тоглы */
 .toggle {
   position: relative;
   width: 38px;
@@ -563,12 +499,12 @@ input[type="range"]::-webkit-slider-thumb:hover {
   transition: transform 0.2s cubic-bezier(0.4,0,0.2,1);
 }
 
-.toggle input:checked + .toggle-track {
+.toggle input:checked+.toggle-track {
   background: var(--accent);
   border-color: var(--accent);
 }
 
-.toggle input:checked + .toggle-track::after {
+.toggle input:checked+.toggle-track::after {
   transform: translateX(16px);
   background: #fff;
 }
@@ -579,11 +515,10 @@ input[type="range"]::-webkit-slider-thumb:hover {
   margin: 2px -20px;
 }
 
-/* Поля ввода и селекты */
 .custom-chars-input,
 .check-input,
 select,
-.profile-name-input {
+.length-input {
   padding: 7px 10px;
   border: 1px solid var(--border);
   background: var(--surface2);
@@ -597,11 +532,10 @@ select,
 .custom-chars-input:focus,
 .check-input:focus,
 select:focus,
-.profile-name-input:focus {
+.length-input:focus {
   border-color: var(--accent);
 }
 
-/* Кнопки */
 .sm-btn {
   padding: 8px 14px;
   border: 1px solid var(--border);
@@ -627,69 +561,6 @@ select:focus,
   opacity: 0.88;
 }
 
-/* Список паролей */
-.bulk-list {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  padding: 12px;
-  font-family: monospace;
-  font-size: 13px;
-  line-height: 1.8;
-  max-height: 200px;
-  overflow-y: auto;
-  white-space: pre-wrap;
-  color: var(--text);
-}
-
-/* История во вкладке */
-.history-list {
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-.history-item {
-  padding: 12px 16px;
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  cursor: pointer;
-  border-bottom: 1px solid var(--border);
-}
-
-.history-item:last-child {
-  border-bottom: none;
-}
-
-.history-item:hover {
-  background: var(--surface2);
-}
-
-.history-pass {
-  font-family: monospace;
-  font-size: 14px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  flex: 1;
-  color: var(--text);
-}
-
-.history-meta {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.badge {
-  font-size: 11px;
-  color: var(--text);
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  padding: 2px 8px;
-}
-
-/* Тост */
 .toast {
   position: fixed;
   bottom: 24px;
@@ -720,25 +591,6 @@ select:focus,
   display: block;
 }
 
-.spin {
-  animation: spin 0.4s ease;
-}
-
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.qr-canvas {
-  border: 1px solid var(--border);
-  background: #fff;
-  padding: 10px;
-  display: none;
-  margin-top: 8px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 .hibp-result {
   font-size: 13px;
   margin-top: 6px;
@@ -749,6 +601,48 @@ select:focus,
 
 .crack-time {
   font-weight: 600;
+}
+
+.mode-settings {
+  display: none;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mode-settings.active {
+  display: flex;
+}
+
+.mode-select-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mode-select-row select {
+  flex: 1;
+}
+
+.check-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.check-input-row .check-input {
+  flex: 1;
+}
+
+.check-result {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.check-stat {
+  font-size: 13px;
+  color: var(--text);
 }
 
 @media (max-width: 480px) {
@@ -774,13 +668,12 @@ select:focus,
     </div>
     <div class="header-right">
       <button class="lang-btn" id="langBtn" onclick="toggleLanguage()">RU 🇷🇺</button>
-      <div style="position: relative;">
+      <div style="position:relative">
         <button class="project-btn" id="projectBtn" onclick="toggleProjectMenu()">⭐ Проект</button>
         <div class="project-menu" id="projectMenu">
           <div class="project-menu-text" id="projectMenuText"></div>
           <div class="project-menu-btns">
             <a href="https://github.com/Michi-Mochirellune/World-of-Passwords-Secure-Generator-OpenSource" target="_blank" rel="noopener" class="project-menu-link" id="projectGitHubLink"></a>
-            <a href="https://t.me/MichiMochirellune" target="_blank" rel="noopener" class="project-menu-link" id="projectTelegramLink"></a>
           </div>
         </div>
       </div>
@@ -789,26 +682,20 @@ select:focus,
   </div>
   <div class="project-overlay" id="projectOverlay" onclick="closeProjectMenu()"></div>
 
-  <div class="tabs" id="mainTabs">
-    <button class="tab active" data-tab="password">Пароль</button>
-    <button class="tab" data-tab="phrase">Фраза</button>
-    <button class="tab" data-tab="pronounce">Слоговый</button>
-    <button class="tab" data-tab="check">Проверка</button>
-    <button class="tab" data-tab="bulk">Список</button>
-    <button class="tab" data-tab="profiles">Профили</button>
-    <button class="tab" data-tab="qr">QR</button>
-    <button class="tab" data-tab="history">История</button>
+  <div class="segment-tabs" id="segmentTabs">
+    <button class="segment-tab active" data-segment="generator" id="segGenerator">🎲 Генератор</button>
+    <button class="segment-tab" data-segment="checker" id="segChecker">🔍 Проверка</button>
   </div>
 
-  <!-- Панель генерации пароля -->
-  <div class="panel active" id="panel-password">
+  <!-- Панель генератора -->
+  <div class="panel active" id="panel-generator">
     <div class="card">
       <div class="password-display">
-        <div class="password-label" id="passwordLabel"></div>
+        <div class="password-label" id="passwordLabel">Ваш пароль</div>
         <div class="password-row">
           <div class="password-text" id="passwordText">—</div>
           <div class="btn-group">
-            <button class="icon-btn" id="copyBtn" onclick="copyPassword()">📋</button>
+            <button class="icon-btn" id="copyBtn" onclick="copyCurrentPassword()">📋</button>
           </div>
         </div>
       </div>
@@ -822,222 +709,87 @@ select:focus,
         </div>
       </div>
       <div class="generate-row">
-        <button class="generate-btn" id="generatePwdBtn" onclick="generate()"></button>
+        <button class="generate-btn" id="generateBtn" onclick="generateCurrent()">Сгенерировать пароль</button>
       </div>
       <div class="controls">
-        <div class="control-row">
-          <div class="control-label" id="lengthLabel"></div>
-          <div class="length-right">
-            <span class="length-value" id="lengthValue">16</span>
-            <input type="range" id="lengthSlider" min="4" max="128" value="16" oninput="onLengthChange()">
-          </div>
-        </div>
-        <div class="divider"></div>
-        <div class="control-row">
-          <div class="control-label" id="uppercaseLabel"></div>
-          <label class="toggle">
-            <input type="checkbox" id="uppercase" checked>
-            <span class="toggle-track"></span>
-          </label>
-        </div>
-        <div class="control-row">
-          <div class="control-label" id="lowercaseLabel"></div>
-          <label class="toggle">
-            <input type="checkbox" id="lowercase" checked>
-            <span class="toggle-track"></span>
-          </label>
-        </div>
-        <div class="control-row">
-          <div class="control-label" id="numbersLabel"></div>
-          <label class="toggle">
-            <input type="checkbox" id="numbers" checked>
-            <span class="toggle-track"></span>
-          </label>
-        </div>
-        <div class="control-row">
-          <div class="control-label" id="symbolsLabel"></div>
-          <label class="toggle">
-            <input type="checkbox" id="symbols">
-            <span class="toggle-track"></span>
-          </label>
-        </div>
-        <div class="control-row">
-          <div class="control-label" id="noambigLabel"></div>
-          <label class="toggle">
-            <input type="checkbox" id="noambig">
-            <span class="toggle-track"></span>
-          </label>
-        </div>
-        <div class="control-row">
-          <div class="control-label" id="guaranteeLabel"></div>
-          <label class="toggle">
-            <input type="checkbox" id="guarantee" checked>
-            <span class="toggle-track"></span>
-          </label>
-        </div>
-        <div class="divider"></div>
-        <div class="control-row">
-          <div class="control-label" id="noRepeatLabel"></div>
-          <label class="toggle">
-            <input type="checkbox" id="noRepeat">
-            <span class="toggle-track"></span>
-          </label>
-        </div>
-        <div class="control-row">
-          <div class="control-label" id="minDigitsLabel"></div>
-          <input type="number" id="minDigits" min="0" max="10" value="0" style="width:60px">
-        </div>
-        <div class="control-row">
-          <div class="control-label" id="minSymbolsLabel"></div>
-          <input type="number" id="minSymbols" min="0" max="10" value="0" style="width:60px">
-        </div>
-        <div class="divider"></div>
-        <div class="control-row">
-          <div class="control-label" id="customCharsLabel"></div>
-        </div>
-        <div class="custom-chars-row">
-          <input type="text" class="custom-chars-input" id="customChars">
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Панель фразы -->
-  <div class="panel" id="panel-phrase">
-    <div class="card">
-      <div class="password-display">
-        <div class="password-label" id="phraseLabel"></div>
-        <div class="password-row">
-          <div class="password-text" id="phraseText">—</div>
-          <div class="btn-group">
-            <button class="icon-btn" id="copyPhraseBtn" onclick="copyPhrase()">📋</button>
-          </div>
-        </div>
-      </div>
-      <div class="strength-area">
-        <div class="strength-track">
-          <div class="strength-fill" id="phraseStrengthFill"></div>
-        </div>
-        <div class="strength-meta">
-          <div class="strength-label" id="phraseStrengthLabel">—</div>
-          <div class="strength-entropy" id="phraseEntropyLabel"></div>
-        </div>
-      </div>
-      <div class="generate-row">
-        <button class="generate-btn" id="generatePhraseBtn" onclick="generatePhrase()"></button>
-      </div>
-      <div class="phrase-controls">
-        <div class="control-row">
-          <div class="control-label" id="wordCountLabel"></div>
-          <div class="length-right">
-            <span class="length-value" id="wordCountValue">4</span>
-            <input type="range" id="wordCountSlider" min="3" max="10" value="4" oninput="onWordCountChange()">
-          </div>
-        </div>
-        <div class="control-row">
-          <div class="control-label" id="separatorLabel"></div>
-          <select id="separator">
-            <option value="-">-</option>
-            <option value=".">.</option>
-            <option value="_">_</option>
-            <option value=" " id="sepSpace"></option>
-            <option value="" id="sepNone"></option>
+        <div class="mode-select-row">
+          <div class="control-label" id="modeLabel">Режим</div>
+          <select id="modeSelect" onchange="switchMode(this.value)">
+            <option value="password" id="modePassword">Пароль</option>
+            <option value="pronounce" id="modePronounce">Слоговый</option>
           </select>
         </div>
-        <div class="control-row">
-          <div class="control-label" id="phraseNumLabel"></div>
-          <label class="toggle">
-            <input type="checkbox" id="phraseNumber">
-            <span class="toggle-track"></span>
-          </label>
-        </div>
-        <div class="control-row">
-          <div class="control-label" id="phraseSymLabel"></div>
-          <label class="toggle">
-            <input type="checkbox" id="phraseSymbol">
-            <span class="toggle-track"></span>
-          </label>
-        </div>
-        <div class="control-row">
-          <div class="control-label" id="phraseCapLabel"></div>
-          <label class="toggle">
-            <input type="checkbox" id="phraseCapitalize" checked>
-            <span class="toggle-track"></span>
-          </label>
-        </div>
-      </div>
-    </div>
-  </div>
+        <div class="divider"></div>
 
-  <!-- Панель произносимого пароля -->
-  <div class="panel" id="panel-pronounce">
-    <div class="card">
-      <div class="password-display">
-        <div class="password-label" id="pronLabel"></div>
-        <div class="password-row">
-          <div class="password-text" id="pronounceText">—</div>
-          <div class="btn-group">
-            <button class="icon-btn" onclick="copyPronounce()">📋</button>
+        <div id="settings-password" class="mode-settings active">
+          <div class="control-row">
+            <div class="control-label" id="lengthLabel">Длина</div>
+            <div class="length-right">
+              <input type="number" id="lengthInput" class="length-input" min="4" max="128" value="16" style="width:70px">
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="control-row">
+            <div class="control-label" id="uppercaseLabel">Заглавные A-Z</div>
+            <label class="toggle"><input type="checkbox" id="uppercase" checked><span class="toggle-track"></span></label>
+          </div>
+          <div class="control-row">
+            <div class="control-label" id="lowercaseLabel">Строчные a-z</div>
+            <label class="toggle"><input type="checkbox" id="lowercase" checked><span class="toggle-track"></span></label>
+          </div>
+          <div class="control-row">
+            <div class="control-label" id="numbersLabel">Цифры 0-9</div>
+            <label class="toggle"><input type="checkbox" id="numbers" checked><span class="toggle-track"></span></label>
+          </div>
+          <div class="control-row">
+            <div class="control-label" id="symbolsLabel">Символы !@#$%^&*</div>
+            <label class="toggle"><input type="checkbox" id="symbols"><span class="toggle-track"></span></label>
+          </div>
+          <div class="control-row">
+            <div class="control-label" id="noambigLabel">Исключить похожие (0Oo1lI)</div>
+            <label class="toggle"><input type="checkbox" id="noambig"><span class="toggle-track"></span></label>
           </div>
         </div>
-      </div>
-      <div class="strength-area">
-        <div class="strength-track">
-          <div class="strength-fill" id="pronStrengthFill"></div>
-        </div>
-        <div class="strength-meta">
-          <div class="strength-label" id="pronStrengthLabel">—</div>
-          <div class="strength-entropy" id="pronEntropyLabel"></div>
-        </div>
-      </div>
-      <div class="generate-row">
-        <button class="generate-btn" id="generatePronBtn" onclick="generatePronounce()"></button>
-      </div>
-      <div class="pronounce-area">
-        <div class="control-row">
-          <div class="control-label" id="pronLenLabel"></div>
-          <div class="length-right">
-            <span class="length-value" id="pronLenValue">10</span>
-            <input type="range" id="pronLenSlider" min="6" max="30" value="10" oninput="pronLenChange()">
+
+        <div id="settings-pronounce" class="mode-settings">
+          <div class="control-row">
+            <div class="control-label" id="pronLenLabel">Длина (символов)</div>
+            <div class="length-right">
+              <input type="number" id="pronLenInput" class="length-input" min="6" max="30" value="10" style="width:70px">
+            </div>
           </div>
-        </div>
-        <div class="control-row">
-          <div class="control-label" id="pronModeLabel"></div>
-          <select id="pronMode">
-            <option value="cv" id="pronCV"></option>
-            <option value="cvc" id="pronCVC"></option>
-            <option value="vcv" id="pronVCV"></option>
-          </select>
-        </div>
-        <div class="control-row">
-          <div class="control-label" id="pronCapLabel"></div>
-          <label class="toggle">
-            <input type="checkbox" id="pronCapitalize">
-            <span class="toggle-track"></span>
-          </label>
-        </div>
-        <div class="control-row">
-          <div class="control-label" id="pronNumLabel"></div>
-          <label class="toggle">
-            <input type="checkbox" id="pronNumber">
-            <span class="toggle-track"></span>
-          </label>
+          <div class="control-row">
+            <div class="control-label" id="pronModeLabel">Режим</div>
+            <select id="pronMode">
+              <option value="cv" id="pronCV">Согласная+гласная (cv)</option>
+              <option value="cvc" id="pronCVC">Согласная+гласная+согласная (cvc)</option>
+              <option value="vcv" id="pronVCV">Гласная+согласная+гласная</option>
+            </select>
+          </div>
+          <div class="control-row">
+            <div class="control-label" id="pronCapLabel">Заглавная первая буква</div>
+            <label class="toggle"><input type="checkbox" id="pronCapitalize"><span class="toggle-track"></span></label>
+          </div>
+          <div class="control-row">
+            <div class="control-label" id="pronNumLabel">Добавить цифру в конец</div>
+            <label class="toggle"><input type="checkbox" id="pronNumber"><span class="toggle-track"></span></label>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Панель проверки -->
-  <div class="panel" id="panel-check">
+  <div class="panel" id="panel-checker">
     <div class="card">
       <div class="check-area">
-        <div class="control-label" id="checkLabel"></div>
+        <div class="control-label" id="checkLabel">Проверка стойкости и утечек (HIBP)</div>
         <div class="check-input-row">
-          <input type="password" class="check-input" id="checkInput" oninput="checkPassword()" onkeydown="if(event.key==='Enter') checkHIBP()">
+          <input type="password" class="check-input" id="checkInput" oninput="checkPassword()" onkeydown="if(event.key==='Enter') checkHIBP()" placeholder="Введите пароль...">
           <button class="sm-btn" onclick="toggleCheckVisibility()" id="checkShowBtn">👁</button>
-          <button class="sm-btn" onclick="checkHIBP()" id="checkLeakBtn"></button>
+          <button class="sm-btn" onclick="checkHIBP()" id="checkLeakBtn">Утечки</button>
         </div>
-        <div class="strength-area" style="padding:0;">
+        <div class="strength-area" style="padding:0">
           <div class="strength-track">
             <div class="strength-fill" id="checkStrengthFill"></div>
           </div>
@@ -1047,88 +799,11 @@ select:focus,
           </div>
         </div>
         <div class="check-result" id="checkResult">
-          <div class="check-stat"><span id="checkLenLabel"></span>: <strong id="checkLen">—</strong></div>
-          <div class="check-stat"><span id="checkCharsetLabel"></span>: <strong id="checkCharset">—</strong></div>
-          <div class="check-stat"><span id="checkEntropyLabel2"></span>: <strong id="checkEntropy">—</strong> <span id="checkBitsLabel"></span></div>
-          <div class="check-stat"><span id="checkCrackLabel"></span>: <span class="crack-time" id="crackTime">—</span></div>
+          <div class="check-stat"><span id="checkLenLabel">Длина</span>: <strong id="checkLen">—</strong></div>
+          <div class="check-stat"><span id="checkCharsetLabel">Набор</span>: <strong id="checkCharset">—</strong></div>
+          <div class="check-stat"><span id="checkEntropyLabel2">Энтропия</span>: <strong id="checkEntropy">—</strong> <span id="checkBitsLabel">бит</span></div>
+          <div class="check-stat"><span id="checkCrackLabel">Время перебора</span>: <span class="crack-time" id="crackTime">—</span></div>
           <div id="hibpResult" class="hibp-result" style="display:none"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Панель списка -->
-  <div class="panel" id="panel-bulk">
-    <div class="card">
-      <div class="bulk-area">
-        <div class="control-row">
-          <div class="control-label" id="bulkCountLabel"></div>
-          <div class="length-right">
-            <span class="length-value" id="bulkCountValue">10</span>
-            <input type="range" id="bulkCountSlider" min="1" max="100" value="10" oninput="document.getElementById('bulkCountValue').textContent=this.value">
-          </div>
-        </div>
-        <button class="sm-btn primary" id="generateBulkBtn" onclick="generateBulk()"></button>
-        <div class="bulk-list" id="bulkList"></div>
-        <div class="bulk-actions">
-          <button class="sm-btn" onclick="copyBulk()" id="copyBulkBtn"></button>
-          <button class="sm-btn" onclick="downloadBulk()" id="downloadBulkBtn"></button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Панель профилей -->
-  <div class="panel" id="panel-profiles">
-    <div class="card">
-      <div class="profile-area">
-        <div class="control-row">
-          <div class="control-label" id="saveProfileLabel"></div>
-          <input type="text" id="profileName" class="profile-name-input">
-          <button class="sm-btn" onclick="saveProfile()" id="saveProfileBtn"></button>
-        </div>
-        <div class="control-row">
-          <div class="control-label" id="loadProfileLabel"></div>
-          <select id="profileSelect" style="flex:1" onchange="loadProfile(this.value)">
-            <option value="" id="profileSelectNone"></option>
-          </select>
-          <button class="sm-btn" onclick="deleteProfile()" id="deleteProfileBtn"></button>
-        </div>
-        <div class="divider"></div>
-        <div class="control-row">
-          <div class="control-label" id="exportImportLabel"></div>
-        </div>
-        <div class="control-row">
-          <button class="sm-btn" onclick="exportProfiles()" id="exportBtn"></button>
-          <button class="sm-btn" onclick="importProfiles()" id="importBtn"></button>
-          <input type="file" id="importFile" accept=".json" style="display:none" onchange="importFileHandler(event)">
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Панель QR -->
-  <div class="panel" id="panel-qr">
-    <div class="card">
-      <div class="qr-area">
-        <div class="control-label" id="qrLabel"></div>
-        <canvas class="qr-canvas" id="qrCanvas" width="250" height="250"></canvas>
-        <div id="qrPlaceholder" style="font-size:13px;color:var(--text);"></div>
-        <button class="sm-btn" onclick="downloadQR()" id="downloadQRBtn"></button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Панель истории -->
-  <div class="panel" id="panel-history">
-    <div class="card">
-      <div class="history-area">
-        <div class="control-row">
-          <div class="control-label" id="historyTitleLabel"></div>
-          <button class="sm-btn" onclick="clearHistory()" id="clearHistoryBtn"></button>
-        </div>
-        <div class="history-list" id="historyList">
-          <div id="historyEmpty" style="color:var(--text); padding: 20px; text-align: center;"></div>
         </div>
       </div>
     </div>
@@ -1137,58 +812,17 @@ select:focus,
 <div class="toast" id="toast"></div>
 
 <script>
-const WORDS = [
-  "aurora","azimuth","aqua","alpine","anchor","apple","archer","arena","aroma","atlas",
-  "baker","banana","bandit","basil","beach","bear","beat","beetle","berry","bird",
-  "blanket","blaze","bloom","blue","bolt","bonus","boot","brave","bread","brick",
-  "bridge","brisk","brush","bubble","buck","buddy","cabin","cactus","camel","camp",
-  "canal","candy","carrot","castle","cave","cedar","charm","cheese","chess","chip",
-  "cider","circle","clay","clean","cliff","clock","cloud","coast","coconut","coffee",
-  "comet","coral","corn","crane","crater","creek","crisp","crow","cube","cycle",
-  "dance","delta","desert","dewdrop","dice","dock","dog","dolphin","door","dove",
-  "dragon","dream","drift","drum","dune","dust","eagle","echo","edge","elder",
-  "elk","ember","engine","epic","fable","face","falcon","fawn","feast","fence",
-  "fern","field","fiery","finch","fire","fish","flag","flame","flash","flint",
-  "flock","flood","flora","flute","fog","forest","fork","fox","frame","fresh",
-  "frog","frost","fruit","fungi","garden","garlic","gem","ghost","giant","glacier",
-  "glass","gleam","glow","goat","golden","grain","grape","grass","gravel","green",
-  "griffin","grove","guest","gust","harbor","hare","hawk","hazel","heart","hedge",
-  "heron","hill","honey","horizon","horse","humble","ice","igloo","ink","iris",
-  "iron","island","ivy","jackal","jar","jazz","jewel","judge","jungle","kayak",
-  "kernel","kettle","key","kindle","king","kite","kiwi","koala","lagoon","lake",
-  "lantern","lava","leaf","lemon","lens","light","lily","lime","lion","lizard",
-  "lodge","lotus","lunar","lynx","magic","mango","maple","marble","marsh","meadow",
-  "mint","mirror","mist","moose","morning","moss","moth","mountain","mouse","music",
-  "nebula","nectar","nest","nova","oak","oasis","ocean","olive","onyx","opal",
-  "orange","orchid","ore","osprey","otter","owl","oyster","palm","panda","pearl",
-  "pebble","piano","pine","pixel","plaza","plum","polar","poppy","prism","quarry",
-  "quartz","quill","rabbit","rain","raven","reef","relic","river","robin","rock",
-  "rook","rose","ruin","rust","sage","sail","sand","scale","scout","seal",
-  "seed","shadow","shell","shield","shore","silk","silver","skull","sky","slate",
-  "sleep","smoke","snail","snake","snow","soap","solar","spark","spear","spice",
-  "spider","spirit","spring","star","stone","storm","stream","summer","sun","sunset",
-  "swamp","swan","sweet","swift","sword","table","temple","thief","thorn","tide",
-  "tiger","toast","tooth","torch","tower","trail","tree","trout","tulip","tundra",
-  "twig","valley","vine","violet","volcano","vulture","water","wave","wheat","whisper",
-  "wild","willow","wind","wing","winter","wolf","wood","wool","yarn","zebra"
-];
-const wordList = [...new Set(WORDS)];
-let currentPassword = '', currentPhrase = '', currentPronounce = '';
-let history = [];
+let currentPassword = '', currentPronounce = '';
 
 const L = {
   ru: {
     title: 'World of <span class="strikethrough">Tanks</span><span class="arrow">→</span>Passwords',
-    tabPassword: 'Пароль',
-    tabPhrase: 'Фраза',
-    tabPronounce: 'Слоговый',
-    tabCheck: 'Проверка',
-    tabBulk: 'Список',
-    tabProfiles: 'Профили',
-    tabQR: 'QR',
-    tabHistory: 'История',
+    segGenerator: '🎲 Генератор',
+    segChecker: '🔍 Проверка',
+    modeLabel: 'Режим',
+    modePassword: 'Пароль',
+    modePronounce: 'Слоговый',
     passwordLabel: 'Ваш пароль',
-    phraseLabel: 'Парольная фраза',
     pronLabel: 'Произносимый пароль',
     lengthLabel: 'Длина',
     uppercaseLabel: 'Заглавные A-Z',
@@ -1196,21 +830,8 @@ const L = {
     numbersLabel: 'Цифры 0-9',
     symbolsLabel: 'Символы !@#$%^&*',
     noambigLabel: 'Исключить похожие (0Oo1lI)',
-    guaranteeLabel: 'Гарантировать все типы',
-    noRepeatLabel: 'Без повторов подряд',
-    minDigitsLabel: 'Минимум цифр',
-    minSymbolsLabel: 'Минимум символов',
-    customCharsLabel: 'Свои символы',
-    customCharsPlaceholder: 'например: €£¥',
     generatePwdBtn: 'Сгенерировать пароль',
-    wordCountLabel: 'Количество слов',
-    separatorLabel: 'Разделитель',
-    sepSpace: 'Пробел',
-    sepNone: 'Слитно',
-    phraseNumLabel: 'Добавить цифру в конец',
-    phraseSymLabel: 'Добавить символ в конец',
-    phraseCapLabel: 'Заглавная первая буква',
-    generatePhraseBtn: 'Сгенерировать фразу',
+    generatePronBtn: 'Сгенерировать произносимый',
     pronLenLabel: 'Длина (символов)',
     pronModeLabel: 'Режим',
     pronCV: 'Согласная+гласная (cv)',
@@ -1218,7 +839,6 @@ const L = {
     pronVCV: 'Гласная+согласная+гласная',
     pronCapLabel: 'Заглавная первая буква',
     pronNumLabel: 'Добавить цифру в конец',
-    generatePronBtn: 'Сгенерировать произносимый',
     checkLabel: 'Проверка стойкости и утечек (HIBP)',
     checkPlaceholder: 'Введите пароль...',
     checkShowBtn: '👁',
@@ -1228,51 +848,17 @@ const L = {
     checkEntropyLabel2: 'Энтропия',
     checkCrackLabel: 'Время перебора',
     checkBitsLabel: 'бит',
-    bulkCountLabel: 'Количество',
-    generateBulkBtn: 'Генерация списка',
-    bulkListPlaceholder: 'Нажмите кнопку',
-    copyBulkBtn: 'Копировать всё',
-    downloadBulkBtn: 'Скачать .txt',
-    saveProfileLabel: 'Сохранить текущие настройки как профиль',
-    profileNamePlaceholder: 'Имя профиля',
-    saveProfileBtn: 'Сохранить',
-    loadProfileLabel: 'Загрузить профиль',
-    profileSelectNone: '-- Выберите --',
-    deleteProfileBtn: 'Удалить',
-    exportImportLabel: 'Экспорт/Импорт всех профилей',
-    exportBtn: 'Экспорт JSON',
-    importBtn: 'Импорт JSON',
-    qrLabel: 'QR-код текущего пароля/фразы',
-    qrPlaceholder: 'Сначала сгенерируйте пароль',
-    downloadQRBtn: 'Скачать QR',
-    historyTitleLabel: 'История сессии',
-    clearHistoryBtn: 'Очистить',
-    historyEmpty: 'Паролей пока нет',
     langBtn: 'RU 🇷🇺',
     projectBtn: '⭐ Проект',
     projectMenuText: 'Тебе нравится World Of Passwords? Тогда поддержи его звёздочкой 👉👈',
     projectGitHubLink: 'GitHub ⭐',
-    projectTelegramLink: 'Telegram 📦',
     themeBtn: '🌙',
     themeToggle: 'Переключить тему',
     langToggle: 'Переключить язык',
     toastCopied: 'Скопировано!',
     toastNoCharset: 'Выберите хотя бы один тип символов',
-    toastNoPassQR: 'Нет пароля для QR',
-    toastQRSaved: 'QR сохранён',
     toastEnterPwd: 'Введите пароль',
     toastHIBPError: 'Ошибка проверки HIBP',
-    toastProfileSaved: 'Профиль сохранён',
-    toastEnterProfileName: 'Введите имя профиля',
-    toastProfileLoaded: (name) => `Профиль "${name}" загружен`,
-    toastProfileDeleted: 'Профиль удалён',
-    toastNoProfiles: 'Нет сохранённых профилей',
-    toastProfilesImported: 'Профили импортированы',
-    toastImportError: 'Ошибка импорта',
-    toastBulkNoCharset: 'Настройте символы',
-    toastBulkCopied: 'Список скопирован!',
-    toastBulkDownloaded: 'Скачано',
-    toastHistoryRestored: 'Пароль скопирован',
     hibpFound: (count) => `Этот пароль найден в ${count} утечках! НЕ ИСПОЛЬЗУЙТЕ ЕГО.`,
     hibpNotFound: 'Хорошо! Этот пароль не обнаружен в известных утечках.',
     weak: 'Слабый',
@@ -1288,22 +874,16 @@ const L = {
     day: 'дн',
     year: 'лет',
     forever: 'вечность',
-    copyAria: 'Копировать пароль',
-    copyPhraseAria: 'Копировать фразу',
-    copyPronAria: 'Копировать произносимый пароль'
+    copyAria: 'Копировать пароль'
   },
   en: {
     title: 'World of <span class="strikethrough">Tanks</span><span class="arrow">→</span>Passwords',
-    tabPassword: 'Password',
-    tabPhrase: 'Phrase',
-    tabPronounce: 'Syllable',
-    tabCheck: 'Check',
-    tabBulk: 'Bulk',
-    tabProfiles: 'Profiles',
-    tabQR: 'QR',
-    tabHistory: 'History',
+    segGenerator: '🎲 Generator',
+    segChecker: '🔍 Check',
+    modeLabel: 'Mode',
+    modePassword: 'Password',
+    modePronounce: 'Syllable',
     passwordLabel: 'Your password',
-    phraseLabel: 'Passphrase',
     pronLabel: 'Pronounceable password',
     lengthLabel: 'Length',
     uppercaseLabel: 'Uppercase A-Z',
@@ -1311,21 +891,8 @@ const L = {
     numbersLabel: 'Digits 0-9',
     symbolsLabel: 'Symbols !@#$%^&*',
     noambigLabel: 'Exclude similar (0Oo1lI)',
-    guaranteeLabel: 'Guarantee all types',
-    noRepeatLabel: 'No consecutive repeats',
-    minDigitsLabel: 'Minimum digits',
-    minSymbolsLabel: 'Minimum symbols',
-    customCharsLabel: 'Custom characters',
-    customCharsPlaceholder: 'e.g. €£¥',
     generatePwdBtn: 'Generate password',
-    wordCountLabel: 'Word count',
-    separatorLabel: 'Separator',
-    sepSpace: 'Space',
-    sepNone: 'None',
-    phraseNumLabel: 'Add digit at end',
-    phraseSymLabel: 'Add symbol at end',
-    phraseCapLabel: 'Capitalize first letter',
-    generatePhraseBtn: 'Generate phrase',
+    generatePronBtn: 'Generate pronounceable',
     pronLenLabel: 'Length (chars)',
     pronModeLabel: 'Mode',
     pronCV: 'Consonant+Vowel (cv)',
@@ -1333,7 +900,6 @@ const L = {
     pronVCV: 'Vowel+Consonant+Vowel',
     pronCapLabel: 'Capitalize first letter',
     pronNumLabel: 'Add digit at end',
-    generatePronBtn: 'Generate pronounceable',
     checkLabel: 'Strength & leak check (HIBP)',
     checkPlaceholder: 'Enter password...',
     checkShowBtn: '👁',
@@ -1343,51 +909,17 @@ const L = {
     checkEntropyLabel2: 'Entropy',
     checkCrackLabel: 'Crack time',
     checkBitsLabel: 'bits',
-    bulkCountLabel: 'Count',
-    generateBulkBtn: 'Generate list',
-    bulkListPlaceholder: 'Click the button',
-    copyBulkBtn: 'Copy all',
-    downloadBulkBtn: 'Download .txt',
-    saveProfileLabel: 'Save current settings as profile',
-    profileNamePlaceholder: 'Profile name',
-    saveProfileBtn: 'Save',
-    loadProfileLabel: 'Load profile',
-    profileSelectNone: '-- Select --',
-    deleteProfileBtn: 'Delete',
-    exportImportLabel: 'Export/Import all profiles',
-    exportBtn: 'Export JSON',
-    importBtn: 'Import JSON',
-    qrLabel: 'QR code of current password/phrase',
-    qrPlaceholder: 'Generate a password first',
-    downloadQRBtn: 'Download QR',
-    historyTitleLabel: 'Session history',
-    clearHistoryBtn: 'Clear',
-    historyEmpty: 'No passwords yet',
     langBtn: 'EN 🇬🇧',
     projectBtn: '⭐ Project',
     projectMenuText: 'Do you like World Of Passwords? Support it with a star 👉👈',
     projectGitHubLink: 'GitHub ⭐',
-    projectTelegramLink: 'Telegram 📦',
     themeBtn: '🌙',
     themeToggle: 'Toggle theme',
     langToggle: 'Switch language',
     toastCopied: 'Copied!',
     toastNoCharset: 'Select at least one character type',
-    toastNoPassQR: 'No password for QR',
-    toastQRSaved: 'QR saved',
     toastEnterPwd: 'Enter a password',
     toastHIBPError: 'HIBP check error',
-    toastProfileSaved: 'Profile saved',
-    toastEnterProfileName: 'Enter profile name',
-    toastProfileLoaded: (name) => `Profile "${name}" loaded`,
-    toastProfileDeleted: 'Profile deleted',
-    toastNoProfiles: 'No saved profiles',
-    toastProfilesImported: 'Profiles imported',
-    toastImportError: 'Import error',
-    toastBulkNoCharset: 'Configure characters first',
-    toastBulkCopied: 'List copied!',
-    toastBulkDownloaded: 'Downloaded',
-    toastHistoryRestored: 'Password copied',
     hibpFound: (count) => `This password was found in ${count} breaches! DO NOT USE IT.`,
     hibpNotFound: 'Good! This password was not found in known breaches.',
     weak: 'Weak',
@@ -1403,22 +935,16 @@ const L = {
     day: 'd',
     year: 'years',
     forever: 'forever',
-    copyAria: 'Copy password',
-    copyPhraseAria: 'Copy phrase',
-    copyPronAria: 'Copy pronounceable password'
+    copyAria: 'Copy password'
   },
   ua: {
     title: 'World of <span class="strikethrough">Tanks</span><span class="arrow">→</span>Passwords',
-    tabPassword: 'Пароль',
-    tabPhrase: 'Фраза',
-    tabPronounce: 'Складовий',
-    tabCheck: 'Перевірка',
-    tabBulk: 'Список',
-    tabProfiles: 'Профілі',
-    tabQR: 'QR',
-    tabHistory: 'Історія',
+    segGenerator: '🎲 Генератор',
+    segChecker: '🔍 Перевірка',
+    modeLabel: 'Режим',
+    modePassword: 'Пароль',
+    modePronounce: 'Складовий',
     passwordLabel: 'Ваш пароль',
-    phraseLabel: 'Парольна фраза',
     pronLabel: 'Вимовний пароль',
     lengthLabel: 'Довжина',
     uppercaseLabel: 'Великі A-Z',
@@ -1426,21 +952,8 @@ const L = {
     numbersLabel: 'Цифри 0-9',
     symbolsLabel: 'Символи !@#$%^&*',
     noambigLabel: 'Виключити схожі (0Oo1lI)',
-    guaranteeLabel: 'Гарантувати всі типи',
-    noRepeatLabel: 'Без повторів підряд',
-    minDigitsLabel: 'Мінімум цифр',
-    minSymbolsLabel: 'Мінімум символів',
-    customCharsLabel: 'Свої символи',
-    customCharsPlaceholder: 'наприклад: €£¥',
     generatePwdBtn: 'Згенерувати пароль',
-    wordCountLabel: 'Кількість слів',
-    separatorLabel: 'Розділювач',
-    sepSpace: 'Пробіл',
-    sepNone: 'Злитно',
-    phraseNumLabel: 'Додати цифру в кінець',
-    phraseSymLabel: 'Додати символ в кінець',
-    phraseCapLabel: 'Велика перша буква',
-    generatePhraseBtn: 'Згенерувати фразу',
+    generatePronBtn: 'Згенерувати вимовний',
     pronLenLabel: 'Довжина (символів)',
     pronModeLabel: 'Режим',
     pronCV: 'Приголосна+голосна (cv)',
@@ -1448,7 +961,6 @@ const L = {
     pronVCV: 'Голосна+приголосна+голосна',
     pronCapLabel: 'Велика перша буква',
     pronNumLabel: 'Додати цифру в кінець',
-    generatePronBtn: 'Згенерувати вимовний',
     checkLabel: 'Перевірка стійкості та витоків (HIBP)',
     checkPlaceholder: 'Введіть пароль...',
     checkShowBtn: '👁',
@@ -1458,51 +970,17 @@ const L = {
     checkEntropyLabel2: 'Ентропія',
     checkCrackLabel: 'Час злому',
     checkBitsLabel: 'біт',
-    bulkCountLabel: 'Кількість',
-    generateBulkBtn: 'Генерація списку',
-    bulkListPlaceholder: 'Натисніть кнопку',
-    copyBulkBtn: 'Копіювати все',
-    downloadBulkBtn: 'Завантажити .txt',
-    saveProfileLabel: 'Зберегти поточні налаштування як профіль',
-    profileNamePlaceholder: 'Ім\'я профілю',
-    saveProfileBtn: 'Зберегти',
-    loadProfileLabel: 'Завантажити профіль',
-    profileSelectNone: '-- Оберіть --',
-    deleteProfileBtn: 'Видалити',
-    exportImportLabel: 'Експорт/Імпорт всіх профілів',
-    exportBtn: 'Експорт JSON',
-    importBtn: 'Імпорт JSON',
-    qrLabel: 'QR-код поточного паролю/фрази',
-    qrPlaceholder: 'Спочатку згенеруйте пароль',
-    downloadQRBtn: 'Завантажити QR',
-    historyTitleLabel: 'Історія сесії',
-    clearHistoryBtn: 'Очистити',
-    historyEmpty: 'Паролів поки немає',
     langBtn: 'UA 🇺🇦',
     projectBtn: '⭐ Проєкт',
     projectMenuText: 'Подобається World Of Passwords? Підтримай його зірочкою 👉👈',
     projectGitHubLink: 'GitHub ⭐',
-    projectTelegramLink: 'Telegram 📦',
     themeBtn: '🌙',
     themeToggle: 'Перемкнути тему',
     langToggle: 'Змінити мову',
     toastCopied: 'Скопійовано!',
     toastNoCharset: 'Виберіть хоча б один тип символів',
-    toastNoPassQR: 'Немає пароля для QR',
-    toastQRSaved: 'QR збережено',
     toastEnterPwd: 'Введіть пароль',
     toastHIBPError: 'Помилка перевірки HIBP',
-    toastProfileSaved: 'Профіль збережено',
-    toastEnterProfileName: 'Введіть ім\'я профілю',
-    toastProfileLoaded: (name) => `Профіль "${name}" завантажено`,
-    toastProfileDeleted: 'Профіль видалено',
-    toastNoProfiles: 'Немає збережених профілів',
-    toastProfilesImported: 'Профілі імпортовано',
-    toastImportError: 'Помилка імпорту',
-    toastBulkNoCharset: 'Налаштуйте символи',
-    toastBulkCopied: 'Список скопійовано!',
-    toastBulkDownloaded: 'Завантажено',
-    toastHistoryRestored: 'Пароль скопійовано',
     hibpFound: (count) => `Цей пароль знайдено в ${count} витоках! НЕ ВИКОРИСТОВУЙТЕ ЙОГО.`,
     hibpNotFound: 'Добре! Цей пароль не знайдено у відомих витоках.',
     weak: 'Слабкий',
@@ -1518,14 +996,13 @@ const L = {
     day: 'дн',
     year: 'років',
     forever: 'вічність',
-    copyAria: 'Копіювати пароль',
-    copyPhraseAria: 'Копіювати фразу',
-    copyPronAria: 'Копіювати вимовний пароль'
+    copyAria: 'Копіювати пароль'
   }
 };
 
 let currentLang = 'ru';
-let activeTabName = 'password';
+let currentSegment = 'generator';
+let currentMode = 'password';
 
 function detectLanguage() {
   const saved = localStorage.getItem('pg_lang');
@@ -1547,12 +1024,13 @@ function applyLanguage(lang) {
   document.getElementById('projectBtn').innerHTML = t.projectBtn;
   document.getElementById('projectMenuText').textContent = t.projectMenuText;
   document.getElementById('projectGitHubLink').textContent = t.projectGitHubLink;
-  document.getElementById('projectTelegramLink').textContent = t.projectTelegramLink;
   document.getElementById('themeBtn').setAttribute('aria-label', t.themeToggle);
 
-  const tabLabels = [t.tabPassword, t.tabPhrase, t.tabPronounce, t.tabCheck, t.tabBulk, t.tabProfiles, t.tabQR, t.tabHistory];
-  document.querySelectorAll('#mainTabs .tab').forEach((tab, i) => { tab.textContent = tabLabels[i]; });
-
+  setText('segGenerator', t.segGenerator);
+  setText('segChecker', t.segChecker);
+  setText('modeLabel', t.modeLabel);
+  setText('modePassword', t.modePassword);
+  setText('modePronounce', t.modePronounce);
   setText('passwordLabel', t.passwordLabel);
   setText('lengthLabel', t.lengthLabel);
   setText('uppercaseLabel', t.uppercaseLabel);
@@ -1560,27 +1038,9 @@ function applyLanguage(lang) {
   setText('numbersLabel', t.numbersLabel);
   setText('symbolsLabel', t.symbolsLabel);
   setText('noambigLabel', t.noambigLabel);
-  setText('guaranteeLabel', t.guaranteeLabel);
-  setText('noRepeatLabel', t.noRepeatLabel);
-  setText('minDigitsLabel', t.minDigitsLabel);
-  setText('minSymbolsLabel', t.minSymbolsLabel);
-  setText('customCharsLabel', t.customCharsLabel);
-  setPlaceholder('customChars', t.customCharsPlaceholder);
-  setText('generatePwdBtn', t.generatePwdBtn);
+  setText('generateBtn', t.generatePwdBtn);
   setAria('copyBtn', t.copyAria);
 
-  setText('phraseLabel', t.phraseLabel);
-  setText('wordCountLabel', t.wordCountLabel);
-  setText('separatorLabel', t.separatorLabel);
-  setText('sepSpace', t.sepSpace);
-  setText('sepNone', t.sepNone);
-  setText('phraseNumLabel', t.phraseNumLabel);
-  setText('phraseSymLabel', t.phraseSymLabel);
-  setText('phraseCapLabel', t.phraseCapLabel);
-  setText('generatePhraseBtn', t.generatePhraseBtn);
-  setAria('copyPhraseBtn', t.copyPhraseAria);
-
-  setText('pronLabel', t.pronLabel);
   setText('pronLenLabel', t.pronLenLabel);
   setText('pronModeLabel', t.pronModeLabel);
   setText('pronCV', t.pronCV);
@@ -1588,9 +1048,6 @@ function applyLanguage(lang) {
   setText('pronVCV', t.pronVCV);
   setText('pronCapLabel', t.pronCapLabel);
   setText('pronNumLabel', t.pronNumLabel);
-  setText('generatePronBtn', t.generatePronBtn);
-  const pronCopyBtn = document.querySelector('#panel-pronounce .icon-btn[onclick*="copyPronounce()"]');
-  if (pronCopyBtn) pronCopyBtn.setAttribute('aria-label', t.copyPronAria);
 
   setText('checkLabel', t.checkLabel);
   setPlaceholder('checkInput', t.checkPlaceholder);
@@ -1602,55 +1059,7 @@ function applyLanguage(lang) {
   setText('checkCrackLabel', t.checkCrackLabel);
   setText('checkBitsLabel', t.bits);
 
-  setText('bulkCountLabel', t.bulkCountLabel);
-  setText('generateBulkBtn', t.generateBulkBtn);
-  setText('copyBulkBtn', t.copyBulkBtn);
-  setText('downloadBulkBtn', t.downloadBulkBtn);
-  const bulkList = document.getElementById('bulkList');
-  if (!bulkList.textContent || bulkList.textContent === L.ru.bulkListPlaceholder || bulkList.textContent === L.en.bulkListPlaceholder || bulkList.textContent === L.ua.bulkListPlaceholder) {
-    bulkList.textContent = t.bulkListPlaceholder;
-  }
-
-  setText('saveProfileLabel', t.saveProfileLabel);
-  setPlaceholder('profileName', t.profileNamePlaceholder);
-  setText('saveProfileBtn', t.saveProfileBtn);
-  setText('loadProfileLabel', t.loadProfileLabel);
-  setText('deleteProfileBtn', t.deleteProfileBtn);
-  setText('exportImportLabel', t.exportImportLabel);
-  setText('exportBtn', t.exportBtn);
-  setText('importBtn', t.importBtn);
-  refreshProfileSelect();
-
-  setText('qrLabel', t.qrLabel);
-  setText('qrPlaceholder', t.qrPlaceholder);
-  setText('downloadQRBtn', t.downloadQRBtn);
-
-  setText('historyTitleLabel', t.historyTitleLabel);
-  setText('clearHistoryBtn', t.clearHistoryBtn);
-  if (history.length === 0) {
-    const emptyDiv = document.getElementById('historyEmpty');
-    emptyDiv.textContent = t.historyEmpty;
-    emptyDiv.style.display = 'block';
-  }
-
-  if (currentPassword && currentPassword !== '—') {
-    const charset = getCharset();
-    updateStrength(currentPassword, charset.length || 62, 'strengthFill', 'strengthLabel', 'entropyLabel');
-  }
-  if (currentPhrase && currentPhrase !== '—') {
-    const count = parseInt(document.getElementById('wordCountSlider').value);
-    const addNum = document.getElementById('phraseNumber').checked;
-    const addSym = document.getElementById('phraseSymbol').checked;
-    let entropyBits = count * Math.log2(wordList.length);
-    if (addNum) entropyBits += Math.log2(10);
-    if (addSym) entropyBits += Math.log2(8);
-    updatePhraseStrength(entropyBits, 'phraseStrengthFill', 'phraseStrengthLabel', 'phraseEntropyLabel');
-  }
-  if (currentPronounce && currentPronounce !== '—') {
-    const num = document.getElementById('pronNumber').checked;
-    const pool = num ? 36 : 26;
-    updateStrength(currentPronounce, pool, 'pronStrengthFill', 'pronStrengthLabel', 'pronEntropyLabel');
-  }
+  switchMode(currentMode);
 }
 
 function setText(id, text) {
@@ -1711,19 +1120,18 @@ function toggleTheme() {
   applyTheme(newTheme);
 }
 
-function switchTab(name, el) {
-  document.querySelectorAll('#mainTabs .tab').forEach(t => t.classList.remove('active'));
+function switchSegment(name) {
+  currentSegment = name;
+  document.querySelectorAll('#segmentTabs .segment-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  el.classList.add('active');
+  const activeTab = document.querySelector(`[data-segment="${name}"]`);
+  if (activeTab) activeTab.classList.add('active');
   const panel = document.getElementById(`panel-${name}`);
   if (panel) panel.classList.add('active');
-  activeTabName = name;
-  if (name === 'qr') renderQR();
-  if (name === 'history') renderHistory();
 }
 
-document.querySelectorAll('#mainTabs .tab').forEach(btn => {
-  btn.addEventListener('click', () => switchTab(btn.dataset.tab, btn));
+document.querySelectorAll('#segmentTabs .segment-tab').forEach(btn => {
+  btn.addEventListener('click', () => switchSegment(btn.dataset.segment));
 });
 
 function secureRandom(max) {
@@ -1742,15 +1150,6 @@ function showToast(msg) {
   setTimeout(() => el.classList.remove('show'), 2000);
 }
 
-function escHtml(s) {
-  return s.replace(/[&<>]/g, function(m) {
-    if (m === '&') return '&amp;';
-    if (m === '<') return '&lt;';
-    if (m === '>') return '&gt;';
-    return m;
-  });
-}
-
 const AMBIGUOUS = /[0Oo1lI]/g;
 
 function getCharset() {
@@ -1759,76 +1158,18 @@ function getCharset() {
   if (document.getElementById('lowercase').checked) c += 'abcdefghijklmnopqrstuvwxyz';
   if (document.getElementById('numbers').checked)   c += '0123456789';
   if (document.getElementById('symbols').checked)   c += '!@#$%^&*()-_=+[]{}|;:,.<>?';
-  const custom = document.getElementById('customChars').value;
-  if (custom) c += custom;
   if (document.getElementById('noambig').checked) c = c.replace(AMBIGUOUS, '');
   return [...new Set(c)].join('');
 }
 
-function enforceConstraints(pwd, len, charset) {
-  const minDigits = parseInt(document.getElementById('minDigits').value) || 0;
-  const minSymbols = parseInt(document.getElementById('minSymbols').value) || 0;
-  const noRepeat = document.getElementById('noRepeat').checked;
-  const digits = (pwd.match(/[0-9]/g) || []).length;
-  const symbols = (pwd.match(/[^a-zA-Z0-9]/g) || []).length;
-  if (digits >= minDigits && symbols >= minSymbols && (!noRepeat || !/(.)\1/.test(pwd))) return pwd;
-
-  for (let attempt = 0; attempt < 30; attempt++) {
-    let newPwd = '';
-    if (minDigits + minSymbols > len) break;
-    let neededDigits = minDigits, neededSymbols = minSymbols;
-    let remaining = len;
-    while (remaining > 0) {
-      const char = charset[secureRandom(charset.length)];
-      if (neededDigits > 0 && /[0-9]/.test(char)) {
-        newPwd += char;
-        neededDigits--;
-        remaining--;
-        continue;
-      }
-      if (neededSymbols > 0 && /[^a-zA-Z0-9]/.test(char)) {
-        newPwd += char;
-        neededSymbols--;
-        remaining--;
-        continue;
-      }
-      if (remaining > neededDigits + neededSymbols) {
-        newPwd += char;
-        remaining--;
-      }
-    }
-    if (noRepeat && /(.)\1/.test(newPwd)) continue;
-    if ((newPwd.match(/[0-9]/g) || []).length >= minDigits && (newPwd.match(/[^a-zA-Z0-9]/g) || []).length >= minSymbols) return newPwd;
-  }
+function generateOne(len, charset) {
+  let pwd = '';
+  for (let i = 0; i < len; i++) pwd += charset[secureRandom(charset.length)];
   return pwd;
 }
 
-function generateOne(len, charset) {
-  const guarantee = document.getElementById('guarantee').checked;
-  const sets = [];
-  if (document.getElementById('uppercase').checked) sets.push('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.replace(AMBIGUOUS, ''));
-  if (document.getElementById('lowercase').checked) sets.push('abcdefghijklmnopqrstuvwxyz'.replace(AMBIGUOUS, ''));
-  if (document.getElementById('numbers').checked)   sets.push('0123456789'.replace(AMBIGUOUS, ''));
-  if (document.getElementById('symbols').checked)   sets.push('!@#$%^&*()-_=+[]{}|;:,.<>?');
-
-  let pwd = '';
-  if (guarantee && sets.length && len >= sets.length) {
-    const mandatory = sets.map(s => s[secureRandom(s.length)]);
-    for (let i = 0; i < len - mandatory.length; i++) pwd += charset[secureRandom(charset.length)];
-    const combined = (pwd + mandatory.join('')).split('');
-    for (let i = combined.length - 1; i > 0; i--) {
-      const j = secureRandom(i + 1);
-      [combined[i], combined[j]] = [combined[j], combined[i]];
-    }
-    pwd = combined.join('');
-  } else {
-    for (let i = 0; i < len; i++) pwd += charset[secureRandom(charset.length)];
-  }
-  return enforceConstraints(pwd, len, charset);
-}
-
 function generate() {
-  const len = parseInt(document.getElementById('lengthSlider').value);
+  const len = parseInt(document.getElementById('lengthInput').value) || 16;
   const charset = getCharset();
   if (!charset) {
     showToast(L[currentLang].toastNoCharset);
@@ -1837,39 +1178,6 @@ function generate() {
   currentPassword = generateOne(len, charset);
   document.getElementById('passwordText').textContent = currentPassword;
   updateStrength(currentPassword, charset.length, 'strengthFill', 'strengthLabel', 'entropyLabel');
-  addToHistory(currentPassword);
-}
-
-function onLengthChange() {
-  document.getElementById('lengthValue').textContent = document.getElementById('lengthSlider').value;
-}
-
-function generatePhrase() {
-  const count = parseInt(document.getElementById('wordCountSlider').value);
-  const sep = document.getElementById('separator').value;
-  const capitalize = document.getElementById('phraseCapitalize').checked;
-  const addNum = document.getElementById('phraseNumber').checked;
-  const addSym = document.getElementById('phraseSymbol').checked;
-  const words = [];
-  for (let i = 0; i < count; i++) words.push(wordList[secureRandom(wordList.length)]);
-  const cased = capitalize ? words.map(w => w.charAt(0).toUpperCase() + w.slice(1)) : words;
-  let phrase = cased.join(sep);
-  if (addNum) phrase += secureRandom(10);
-  if (addSym) {
-    const syms = '!@#$%^&*';
-    phrase += syms[secureRandom(syms.length)];
-  }
-  currentPhrase = phrase;
-  document.getElementById('phraseText').textContent = phrase;
-  let entropyBits = count * Math.log2(wordList.length);
-  if (addNum) entropyBits += Math.log2(10);
-  if (addSym) entropyBits += Math.log2(8);
-  updatePhraseStrength(entropyBits, 'phraseStrengthFill', 'phraseStrengthLabel', 'phraseEntropyLabel');
-  addToHistory(phrase);
-}
-
-function onWordCountChange() {
-  document.getElementById('wordCountValue').textContent = document.getElementById('wordCountSlider').value;
 }
 
 const CONSONANTS = "bcdfghjklmnpqrstvwxz";
@@ -1893,108 +1201,90 @@ function generatePronounceable(len, mode, capitalize, addNumber) {
 }
 
 function generatePronounce() {
-  const len = parseInt(document.getElementById('pronLenSlider').value);
+  const len = parseInt(document.getElementById('pronLenInput').value) || 10;
   const mode = document.getElementById('pronMode').value;
   const cap = document.getElementById('pronCapitalize').checked;
   const num = document.getElementById('pronNumber').checked;
   currentPronounce = generatePronounceable(len, mode, cap, num);
-  document.getElementById('pronounceText').textContent = currentPronounce;
+  document.getElementById('passwordText').textContent = currentPronounce;
   const pool = num ? 36 : 26;
-  updateStrength(currentPronounce, pool, 'pronStrengthFill', 'pronStrengthLabel', 'pronEntropyLabel');
-  addToHistory(currentPronounce);
+  updateStrength(currentPronounce, pool, 'strengthFill', 'strengthLabel', 'entropyLabel');
 }
 
-function pronLenChange() {
-  document.getElementById('pronLenValue').textContent = document.getElementById('pronLenSlider').value;
-}
-
-function copyPronounce() {
-  if (currentPronounce) {
-    navigator.clipboard.writeText(currentPronounce);
+function copyCurrentPassword() {
+  const text = document.getElementById('passwordText').textContent;
+  if (text && text !== '—') {
+    navigator.clipboard.writeText(text);
     showToast(L[currentLang].toastCopied);
   }
+}
+
+function switchMode(mode) {
+  currentMode = mode;
+  const t = L[currentLang];
+  document.querySelectorAll('.mode-settings').forEach(el => el.classList.remove('active'));
+  const settingsEl = document.getElementById(`settings-${mode}`);
+  if (settingsEl) settingsEl.classList.add('active');
+
+  const btn = document.getElementById('generateBtn');
+  if (btn) {
+    if (mode === 'password') btn.textContent = t.generatePwdBtn;
+    else btn.textContent = t.generatePronBtn;
+  }
+
+  const label = document.getElementById('passwordLabel');
+  if (label) {
+    if (mode === 'password') label.textContent = t.passwordLabel;
+    else label.textContent = t.pronLabel;
+  }
+
+  const textEl = document.getElementById('passwordText');
+  if (textEl) {
+    if (mode === 'password') textEl.textContent = currentPassword || '—';
+    else textEl.textContent = currentPronounce || '—';
+  }
+
+  if (mode === 'password' && currentPassword) {
+    const charset = getCharset();
+    updateStrength(currentPassword, charset.length || 62, 'strengthFill', 'strengthLabel', 'entropyLabel');
+  } else if (mode === 'pronounce' && currentPronounce) {
+    const num = document.getElementById('pronNumber').checked;
+    const pool = num ? 36 : 26;
+    updateStrength(currentPronounce, pool, 'strengthFill', 'strengthLabel', 'entropyLabel');
+  } else {
+    const fill = document.getElementById('strengthFill');
+    if (fill) { fill.style.width = '0%'; }
+    const lbl = document.getElementById('strengthLabel');
+    if (lbl) { lbl.textContent = '—'; lbl.style.color = 'var(--text)'; }
+    const ent = document.getElementById('entropyLabel');
+    if (ent) { ent.textContent = ''; }
+  }
+}
+
+function generateCurrent() {
+  if (currentMode === 'password') generate();
+  else if (currentMode === 'pronounce') generatePronounce();
 }
 
 function updateStrength(pwd, poolSize, fillId, labelId, entropyId) {
   const entropy = pwd.length * Math.log2(Math.max(poolSize, 2));
   const t = L[currentLang];
   let score, text, color;
-  if (entropy < 40) {
-    score = 18;
-    text = t.weak;
-    color = '#ef4444';
-  } else if (entropy < 60) {
-    score = 40;
-    text = t.medium;
-    color = '#f97316';
-  } else if (entropy < 80) {
-    score = 62;
-    text = t.good;
-    color = '#eab308';
-  } else if (entropy < 100) {
-    score = 82;
-    text = t.strong;
-    color = '#22c55e';
-  } else {
-    score = 100;
-    text = t.excellent;
-    color = '#16a34a';
-  }
+  if (entropy < 40) { score = 18; text = t.weak; color = '#ef4444'; }
+  else if (entropy < 60) { score = 40; text = t.medium; color = '#f97316'; }
+  else if (entropy < 80) { score = 62; text = t.good; color = '#eab308'; }
+  else if (entropy < 100) { score = 82; text = t.strong; color = '#22c55e'; }
+  else { score = 100; text = t.excellent; color = '#16a34a'; }
   const fill = document.getElementById(fillId);
-  if (fill) {
-    fill.style.width = score + '%';
-    fill.style.background = color;
-  }
+  if (fill) { fill.style.width = score + '%'; fill.style.background = color; }
   const lbl = document.getElementById(labelId);
-  if (lbl) {
-    lbl.style.color = color;
-    lbl.textContent = text;
-  }
+  if (lbl) { lbl.style.color = color; lbl.textContent = text; }
   const ent = document.getElementById(entropyId);
   if (ent) ent.textContent = Math.round(entropy) + ' ' + t.bits;
 }
 
-function updatePhraseStrength(entropyBits, fillId, labelId, entropyId) {
-  const t = L[currentLang];
-  let score, text, color;
-  if (entropyBits < 40) {
-    score = 18;
-    text = t.weak;
-    color = '#ef4444';
-  } else if (entropyBits < 60) {
-    score = 40;
-    text = t.medium;
-    color = '#f97316';
-  } else if (entropyBits < 80) {
-    score = 62;
-    text = t.good;
-    color = '#eab308';
-  } else if (entropyBits < 100) {
-    score = 82;
-    text = t.strong;
-    color = '#22c55e';
-  } else {
-    score = 100;
-    text = t.excellent;
-    color = '#16a34a';
-  }
-  const fill = document.getElementById(fillId);
-  if (fill) {
-    fill.style.width = score + '%';
-    fill.style.background = color;
-  }
-  const lbl = document.getElementById(labelId);
-  if (lbl) {
-    lbl.style.color = color;
-    lbl.textContent = text;
-  }
-  const ent = document.getElementById(entropyId);
-  if (ent) ent.textContent = Math.round(entropyBits) + ' ' + t.bits;
-}
-
 function checkPassword() {
   const val = document.getElementById('checkInput').value;
-  const resultDiv = document.getElementById('checkResult');
   if (!val) {
     document.getElementById('checkStrengthLabel').textContent = '—';
     return;
@@ -2032,10 +1322,7 @@ function toggleCheckVisibility() {
 async function checkHIBP() {
   const t = L[currentLang];
   const pwd = document.getElementById('checkInput').value;
-  if (!pwd) {
-    showToast(t.toastEnterPwd);
-    return;
-  }
+  if (!pwd) { showToast(t.toastEnterPwd); return; }
   const encoder = new TextEncoder();
   const hashBuffer = await crypto.subtle.digest('SHA-1', encoder.encode(pwd));
   const hashArray = Array.from(new Uint8Array(hashBuffer));
@@ -2050,284 +1337,7 @@ async function checkHIBP() {
     resultDiv.style.display = 'block';
     resultDiv.innerHTML = count > 0 ? t.hibpFound(count) : t.hibpNotFound;
     resultDiv.style.color = count ? 'var(--red)' : 'var(--green)';
-  } catch (e) {
-    showToast(t.toastHIBPError);
-  }
-}
-
-function saveProfile() {
-  const t = L[currentLang];
-  const name = document.getElementById('profileName').value.trim();
-  if (!name) return showToast(t.toastEnterProfileName);
-  const settings = {
-    len: document.getElementById('lengthSlider').value,
-    uppercase: document.getElementById('uppercase').checked,
-    lowercase: document.getElementById('lowercase').checked,
-    numbers: document.getElementById('numbers').checked,
-    symbols: document.getElementById('symbols').checked,
-    noambig: document.getElementById('noambig').checked,
-    guarantee: document.getElementById('guarantee').checked,
-    noRepeat: document.getElementById('noRepeat').checked,
-    minDigits: document.getElementById('minDigits').value,
-    minSymbols: document.getElementById('minSymbols').value,
-    customChars: document.getElementById('customChars').value
-  };
-  const profiles = JSON.parse(localStorage.getItem('pg_profiles') || '{}');
-  profiles[name] = settings;
-  localStorage.setItem('pg_profiles', JSON.stringify(profiles));
-  refreshProfileSelect();
-  showToast(t.toastProfileSaved);
-}
-
-function refreshProfileSelect() {
-  const t = L[currentLang];
-  const profiles = JSON.parse(localStorage.getItem('pg_profiles') || '{}');
-  const sel = document.getElementById('profileSelect');
-  sel.innerHTML = `<option value="">${t.profileSelectNone}</option>`;
-  for (const name of Object.keys(profiles)) {
-    sel.innerHTML += `<option value="${escHtml(name)}">${escHtml(name)}</option>`;
-  }
-}
-
-function loadProfile(name) {
-  const t = L[currentLang];
-  if (!name) return;
-  const profiles = JSON.parse(localStorage.getItem('pg_profiles') || '{}');
-  const s = profiles[name];
-  if (!s) return;
-  document.getElementById('lengthSlider').value = s.len;
-  document.getElementById('uppercase').checked = s.uppercase;
-  document.getElementById('lowercase').checked = s.lowercase;
-  document.getElementById('numbers').checked = s.numbers;
-  document.getElementById('symbols').checked = s.symbols;
-  document.getElementById('noambig').checked = s.noambig;
-  document.getElementById('guarantee').checked = s.guarantee;
-  document.getElementById('noRepeat').checked = s.noRepeat;
-  document.getElementById('minDigits').value = s.minDigits;
-  document.getElementById('minSymbols').value = s.minSymbols;
-  document.getElementById('customChars').value = s.customChars || '';
-  onLengthChange();
-  showToast(t.toastProfileLoaded(name));
-}
-
-function deleteProfile() {
-  const t = L[currentLang];
-  const name = document.getElementById('profileSelect').value;
-  if (!name) return;
-  const profiles = JSON.parse(localStorage.getItem('pg_profiles') || '{}');
-  delete profiles[name];
-  localStorage.setItem('pg_profiles', JSON.stringify(profiles));
-  refreshProfileSelect();
-  showToast(t.toastProfileDeleted);
-}
-
-function exportProfiles() {
-  const t = L[currentLang];
-  const data = localStorage.getItem('pg_profiles');
-  if (!data) {
-    showToast(t.toastNoProfiles);
-    return;
-  }
-  const blob = new Blob([data], { type: 'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'password_profiles.json';
-  a.click();
-  URL.revokeObjectURL(a.href);
-}
-
-function importProfiles() {
-  document.getElementById('importFile').click();
-}
-
-function importFileHandler(e) {
-  const t = L[currentLang];
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    try {
-      const obj = JSON.parse(ev.target.result);
-      if (typeof obj === 'object') {
-        localStorage.setItem('pg_profiles', JSON.stringify(obj));
-        refreshProfileSelect();
-        showToast(t.toastProfilesImported);
-      } else throw new Error();
-    } catch (e) {
-      showToast(t.toastImportError);
-    }
-  };
-  reader.readAsText(file);
-}
-
-function generateBulk() {
-  const t = L[currentLang];
-  const count = parseInt(document.getElementById('bulkCountSlider').value);
-  const charset = getCharset();
-  if (!charset) {
-    showToast(t.toastBulkNoCharset);
-    return;
-  }
-  const len = parseInt(document.getElementById('lengthSlider').value);
-  const list = [];
-  for (let i = 0; i < count; i++) list.push(generateOne(len, charset));
-  document.getElementById('bulkList').textContent = list.join('\n');
-}
-
-function copyBulk() {
-  const t = L[currentLang];
-  const txt = document.getElementById('bulkList').textContent;
-  if (txt && txt !== t.bulkListPlaceholder) {
-    navigator.clipboard.writeText(txt).then(() => showToast(t.toastBulkCopied));
-  }
-}
-
-function downloadBulk() {
-  const t = L[currentLang];
-  const txt = document.getElementById('bulkList').textContent;
-  if (txt && txt !== t.bulkListPlaceholder) {
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([txt], { type: 'text/plain' }));
-    a.download = 'passwords.txt';
-    a.click();
-    URL.revokeObjectURL(a.href);
-    showToast(t.toastBulkDownloaded);
-  }
-}
-
-function addToHistory(pwd) {
-  history.unshift({
-    password: pwd,
-    len: pwd.length,
-    time: new Date().toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })
-  });
-  if (history.length > 15) history.pop();
-  renderHistory();
-}
-
-function renderHistory() {
-  const t = L[currentLang];
-  const listDiv = document.getElementById('historyList');
-  const emptyDiv = document.getElementById('historyEmpty');
-  if (!history.length) {
-    listDiv.innerHTML = '';
-    emptyDiv.textContent = t.historyEmpty;
-    emptyDiv.style.display = 'block';
-    return;
-  }
-  emptyDiv.style.display = 'none';
-  listDiv.innerHTML = history.map((item, i) =>
-    `<div class="history-item" onclick="copyHistoryItem(${i})">
-      <span class="history-pass">${escHtml(item.password)}</span>
-      <div class="history-meta">
-        <span class="badge">${item.len}</span>
-        <span class="badge">${item.time}</span>
-      </div>
-    </div>`
-  ).join('');
-}
-
-function copyHistoryItem(i) {
-  navigator.clipboard.writeText(history[i].password).then(() => showToast(L[currentLang].toastCopied));
-}
-
-function clearHistory() {
-  history = [];
-  renderHistory();
-}
-
-function loadQRLibrary(callback) {
-  if (window.QRCodeGen) {
-    callback();
-    return;
-  }
-  const script = document.createElement('script');
-  script.src = 'https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js';
-  script.onload = () => { callback(); };
-  document.head.appendChild(script);
-}
-
-function drawQR(text, canvas) {
-  if (!window.QRCodeGen) {
-    loadQRLibrary(() => drawQR(text, canvas));
-    return;
-  }
-  try {
-    const qr = QRCodeGen(0, 'M');
-    qr.addData(text);
-    qr.make();
-    const cellSize = 4, margin = 4;
-    const modules = qr.getModuleCount();
-    const size = modules * cellSize + margin * 2;
-    canvas.width = size;
-    canvas.height = size;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(0, 0, size, size);
-    ctx.fillStyle = '#000';
-    for (let row = 0; row < modules; row++) {
-      for (let col = 0; col < modules; col++) {
-        if (qr.isDark(row, col)) {
-          ctx.fillRect(margin + col * cellSize, margin + row * cellSize, cellSize, cellSize);
-        }
-      }
-    }
-    canvas.style.width = '200px';
-    canvas.style.height = '200px';
-    canvas.style.display = 'block';
-  } catch (e) {
-    console.error(e);
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#000';
-    ctx.font = '12px monospace';
-    ctx.fillText('Ошибка QR', 10, 50);
-  }
-}
-
-function renderQR() {
-  const pass = currentPassword || currentPhrase || currentPronounce;
-  const canvas = document.getElementById('qrCanvas');
-  const placeholder = document.getElementById('qrPlaceholder');
-  if (!pass) {
-    placeholder.style.display = 'block';
-    canvas.style.display = 'none';
-    return;
-  }
-  placeholder.style.display = 'none';
-  canvas.style.display = 'block';
-  drawQR(pass, canvas);
-}
-
-function downloadQR() {
-  const t = L[currentLang];
-  const canvas = document.getElementById('qrCanvas');
-  if (canvas.style.display === 'none') {
-    showToast(t.toastNoPassQR);
-    return;
-  }
-  setTimeout(() => {
-    const link = document.createElement('a');
-    link.download = 'password-qr.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-    showToast(t.toastQRSaved);
-  }, 50);
-}
-
-function copyPassword() {
-  if (currentPassword) {
-    navigator.clipboard.writeText(currentPassword);
-    showToast(L[currentLang].toastCopied);
-  }
-}
-
-function copyPhrase() {
-  if (currentPhrase) {
-    navigator.clipboard.writeText(currentPhrase);
-    showToast(L[currentLang].toastCopied);
-  }
+  } catch (e) { showToast(t.toastHIBPError); }
 }
 
 function init() {
@@ -2336,9 +1346,7 @@ function init() {
   applyLanguage(currentLang);
   const savedTheme = localStorage.getItem('pg_theme') || 'light';
   applyTheme(savedTheme);
-  refreshProfileSelect();
   generate();
-  generatePhrase();
   generatePronounce();
 }
 
