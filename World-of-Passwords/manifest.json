@@ -2,7 +2,7 @@
   "name": "World of Passwords",
   "short_name": "WoP",
   "description": "Генератор паролей с проверкой утечек",
-  "start_url": "../"
+  "start_url": "../",
   "display": "standalone",
   "background_color": "#025832",
   "theme_color": "#2563eb",
