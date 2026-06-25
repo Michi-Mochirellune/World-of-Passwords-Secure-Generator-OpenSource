@@ -320,13 +320,59 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
+.mode-select-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.mode-select-row select {
+  flex: 1;
+}
+
+.password-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+
 .password-label {
   font-size: 11px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.8px;
   color: var(--text);
-  margin-bottom: 10px;
+  flex-shrink: 0;
+}
+
+.password-label-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.inline-length-input {
+  width: 90px;
+  height: 36px;
+  padding: 7px 8px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: monospace;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.15s;
+  flex-shrink: 0;
+}
+
+.inline-length-input:focus {
+  border-color: var(--accent);
 }
 
 .password-row {
@@ -335,7 +381,7 @@ body {
   gap: 10px;
 }
 
-.password-text {
+.password-input {
   flex: 1;
   font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
   font-size: 17px;
@@ -345,12 +391,23 @@ body {
   word-break: break-all;
   line-height: 1.5;
   min-height: 28px;
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 0;
+}
+
+.password-input::placeholder {
+  color: var(--text3, #999);
+  opacity: 0.5;
 }
 
 .btn-group {
   display: flex;
   gap: 6px;
   flex-shrink: 0;
+  align-items: flex-start;
 }
 
 .icon-btn {
@@ -377,6 +434,10 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+.strength-area.hidden {
+  display: none;
 }
 
 .strength-track {
@@ -457,12 +518,6 @@ body {
   font-size: 14px;
   color: var(--text);
   user-select: none;
-}
-
-.length-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .toggle {
@@ -613,16 +668,6 @@ select:focus,
   display: flex;
 }
 
-.mode-select-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.mode-select-row select {
-  flex: 1;
-}
-
 .check-input-row {
   display: flex;
   gap: 8px;
@@ -638,6 +683,10 @@ select:focus,
   flex-direction: column;
   gap: 4px;
   margin-top: 8px;
+}
+
+.check-result.hidden {
+  display: none;
 }
 
 .check-stat {
@@ -691,15 +740,25 @@ select:focus,
   <div class="panel active" id="panel-generator">
     <div class="card">
       <div class="password-display">
-        <div class="password-label" id="passwordLabel">Ваш пароль</div>
-        <div class="password-row">
-          <div class="password-text" id="passwordText">—</div>
-          <div class="btn-group">
+        <div class="mode-select-row">
+          <div class="control-label" id="modeLabel">Режим</div>
+          <select id="modeSelect" onchange="switchMode(this.value)">
+            <option value="password" id="modePassword">Пароль</option>
+            <option value="pronounce" id="modePronounce">Слоговый</option>
+          </select>
+        </div>
+        <div class="password-label-row">
+          <div class="password-label" id="passwordLabel">Ваш пароль</div>
+          <div class="password-label-actions">
+            <input type="number" id="lengthInput" class="inline-length-input" min="4" max="128" value="16">
             <button class="icon-btn" id="copyBtn" onclick="copyCurrentPassword()">📋</button>
           </div>
         </div>
+        <div class="password-row">
+          <input type="text" class="password-input" id="passwordInput" placeholder="Нажмите «Сгенерировать» или введите свой пароль" oninput="onPasswordInput()">
+        </div>
       </div>
-      <div class="strength-area">
+      <div class="strength-area hidden" id="strengthArea">
         <div class="strength-track">
           <div class="strength-fill" id="strengthFill"></div>
         </div>
@@ -712,23 +771,9 @@ select:focus,
         <button class="generate-btn" id="generateBtn" onclick="generateCurrent()">Сгенерировать пароль</button>
       </div>
       <div class="controls">
-        <div class="mode-select-row">
-          <div class="control-label" id="modeLabel">Режим</div>
-          <select id="modeSelect" onchange="switchMode(this.value)">
-            <option value="password" id="modePassword">Пароль</option>
-            <option value="pronounce" id="modePronounce">Слоговый</option>
-          </select>
-        </div>
         <div class="divider"></div>
 
         <div id="settings-password" class="mode-settings active">
-          <div class="control-row">
-            <div class="control-label" id="lengthLabel">Длина</div>
-            <div class="length-right">
-              <input type="number" id="lengthInput" class="length-input" min="4" max="128" value="16" style="width:70px">
-            </div>
-          </div>
-          <div class="divider"></div>
           <div class="control-row">
             <div class="control-label" id="uppercaseLabel">Заглавные A-Z</div>
             <label class="toggle"><input type="checkbox" id="uppercase" checked><span class="toggle-track"></span></label>
@@ -752,12 +797,6 @@ select:focus,
         </div>
 
         <div id="settings-pronounce" class="mode-settings">
-          <div class="control-row">
-            <div class="control-label" id="pronLenLabel">Длина (символов)</div>
-            <div class="length-right">
-              <input type="number" id="pronLenInput" class="length-input" min="6" max="30" value="10" style="width:70px">
-            </div>
-          </div>
           <div class="control-row">
             <div class="control-label" id="pronModeLabel">Режим</div>
             <select id="pronMode">
@@ -789,7 +828,7 @@ select:focus,
           <button class="sm-btn" onclick="toggleCheckVisibility()" id="checkShowBtn">👁</button>
           <button class="sm-btn" onclick="checkHIBP()" id="checkLeakBtn">Утечки</button>
         </div>
-        <div class="strength-area" style="padding:0">
+        <div class="strength-area hidden" id="checkStrengthArea" style="padding:0">
           <div class="strength-track">
             <div class="strength-fill" id="checkStrengthFill"></div>
           </div>
@@ -798,7 +837,7 @@ select:focus,
             <div class="strength-entropy" id="checkEntropyLabel"></div>
           </div>
         </div>
-        <div class="check-result" id="checkResult">
+        <div class="check-result hidden" id="checkResult">
           <div class="check-stat"><span id="checkLenLabel">Длина</span>: <strong id="checkLen">—</strong></div>
           <div class="check-stat"><span id="checkCharsetLabel">Набор</span>: <strong id="checkCharset">—</strong></div>
           <div class="check-stat"><span id="checkEntropyLabel2">Энтропия</span>: <strong id="checkEntropy">—</strong> <span id="checkBitsLabel">бит</span></div>
@@ -824,7 +863,6 @@ const L = {
     modePronounce: 'Слоговый',
     passwordLabel: 'Ваш пароль',
     pronLabel: 'Произносимый пароль',
-    lengthLabel: 'Длина',
     uppercaseLabel: 'Заглавные A-Z',
     lowercaseLabel: 'Строчные a-z',
     numbersLabel: 'Цифры 0-9',
@@ -832,7 +870,6 @@ const L = {
     noambigLabel: 'Исключить похожие (0Oo1lI)',
     generatePwdBtn: 'Сгенерировать пароль',
     generatePronBtn: 'Сгенерировать произносимый',
-    pronLenLabel: 'Длина (символов)',
     pronModeLabel: 'Режим',
     pronCV: 'Согласная+гласная (cv)',
     pronCVC: 'Согласная+гласная+согласная (cvc)',
@@ -885,7 +922,6 @@ const L = {
     modePronounce: 'Syllable',
     passwordLabel: 'Your password',
     pronLabel: 'Pronounceable password',
-    lengthLabel: 'Length',
     uppercaseLabel: 'Uppercase A-Z',
     lowercaseLabel: 'Lowercase a-z',
     numbersLabel: 'Digits 0-9',
@@ -893,7 +929,6 @@ const L = {
     noambigLabel: 'Exclude similar (0Oo1lI)',
     generatePwdBtn: 'Generate password',
     generatePronBtn: 'Generate pronounceable',
-    pronLenLabel: 'Length (chars)',
     pronModeLabel: 'Mode',
     pronCV: 'Consonant+Vowel (cv)',
     pronCVC: 'Consonant+Vowel+Consonant (cvc)',
@@ -946,7 +981,6 @@ const L = {
     modePronounce: 'Складовий',
     passwordLabel: 'Ваш пароль',
     pronLabel: 'Вимовний пароль',
-    lengthLabel: 'Довжина',
     uppercaseLabel: 'Великі A-Z',
     lowercaseLabel: 'Малі a-z',
     numbersLabel: 'Цифри 0-9',
@@ -954,7 +988,6 @@ const L = {
     noambigLabel: 'Виключити схожі (0Oo1lI)',
     generatePwdBtn: 'Згенерувати пароль',
     generatePronBtn: 'Згенерувати вимовний',
-    pronLenLabel: 'Довжина (символів)',
     pronModeLabel: 'Режим',
     pronCV: 'Приголосна+голосна (cv)',
     pronCVC: 'Приголосна+голосна+приголосна (cvc)',
@@ -1032,7 +1065,6 @@ function applyLanguage(lang) {
   setText('modePassword', t.modePassword);
   setText('modePronounce', t.modePronounce);
   setText('passwordLabel', t.passwordLabel);
-  setText('lengthLabel', t.lengthLabel);
   setText('uppercaseLabel', t.uppercaseLabel);
   setText('lowercaseLabel', t.lowercaseLabel);
   setText('numbersLabel', t.numbersLabel);
@@ -1041,7 +1073,6 @@ function applyLanguage(lang) {
   setText('generateBtn', t.generatePwdBtn);
   setAria('copyBtn', t.copyAria);
 
-  setText('pronLenLabel', t.pronLenLabel);
   setText('pronModeLabel', t.pronModeLabel);
   setText('pronCV', t.pronCV);
   setText('pronCVC', t.pronCVC);
@@ -1176,8 +1207,9 @@ function generate() {
     return;
   }
   currentPassword = generateOne(len, charset);
-  document.getElementById('passwordText').textContent = currentPassword;
+  document.getElementById('passwordInput').value = currentPassword;
   updateStrength(currentPassword, charset.length, 'strengthFill', 'strengthLabel', 'entropyLabel');
+  document.getElementById('strengthArea').classList.remove('hidden');
 }
 
 const CONSONANTS = "bcdfghjklmnpqrstvwxz";
@@ -1201,22 +1233,43 @@ function generatePronounceable(len, mode, capitalize, addNumber) {
 }
 
 function generatePronounce() {
-  const len = parseInt(document.getElementById('pronLenInput').value) || 10;
+  const len = parseInt(document.getElementById('lengthInput').value) || 10;
   const mode = document.getElementById('pronMode').value;
   const cap = document.getElementById('pronCapitalize').checked;
   const num = document.getElementById('pronNumber').checked;
   currentPronounce = generatePronounceable(len, mode, cap, num);
-  document.getElementById('passwordText').textContent = currentPronounce;
+  document.getElementById('passwordInput').value = currentPronounce;
   const pool = num ? 36 : 26;
   updateStrength(currentPronounce, pool, 'strengthFill', 'strengthLabel', 'entropyLabel');
+  document.getElementById('strengthArea').classList.remove('hidden');
 }
 
 function copyCurrentPassword() {
-  const text = document.getElementById('passwordText').textContent;
-  if (text && text !== '—') {
+  const text = document.getElementById('passwordInput').value;
+  if (text) {
     navigator.clipboard.writeText(text);
     showToast(L[currentLang].toastCopied);
   }
+}
+
+function onPasswordInput() {
+  const val = document.getElementById('passwordInput').value;
+  const strengthArea = document.getElementById('strengthArea');
+  if (!val) {
+    strengthArea.classList.add('hidden');
+    if (currentMode === 'password') currentPassword = '';
+    else currentPronounce = '';
+    return;
+  }
+  strengthArea.classList.remove('hidden');
+  let pool = 0;
+  if (/[a-z]/.test(val)) pool += 26;
+  if (/[A-Z]/.test(val)) pool += 26;
+  if (/[0-9]/.test(val)) pool += 10;
+  if (/[^a-zA-Z0-9]/.test(val)) pool += 32;
+  updateStrength(val, Math.max(pool, 2), 'strengthFill', 'strengthLabel', 'entropyLabel');
+  if (currentMode === 'password') currentPassword = val;
+  else currentPronounce = val;
 }
 
 function switchMode(mode) {
@@ -1238,27 +1291,26 @@ function switchMode(mode) {
     else label.textContent = t.pronLabel;
   }
 
-  const textEl = document.getElementById('passwordText');
-  if (textEl) {
-    if (mode === 'password') textEl.textContent = currentPassword || '—';
-    else textEl.textContent = currentPronounce || '—';
+  const inputEl = document.getElementById('passwordInput');
+  if (inputEl) {
+    if (mode === 'password') inputEl.value = currentPassword || '';
+    else inputEl.value = currentPronounce || '';
   }
 
-  if (mode === 'password' && currentPassword) {
-    const charset = getCharset();
-    updateStrength(currentPassword, charset.length || 62, 'strengthFill', 'strengthLabel', 'entropyLabel');
-  } else if (mode === 'pronounce' && currentPronounce) {
-    const num = document.getElementById('pronNumber').checked;
-    const pool = num ? 36 : 26;
-    updateStrength(currentPronounce, pool, 'strengthFill', 'strengthLabel', 'entropyLabel');
-  } else {
-    const fill = document.getElementById('strengthFill');
-    if (fill) { fill.style.width = '0%'; }
-    const lbl = document.getElementById('strengthLabel');
-    if (lbl) { lbl.textContent = '—'; lbl.style.color = 'var(--text)'; }
-    const ent = document.getElementById('entropyLabel');
-    if (ent) { ent.textContent = ''; }
+  const lengthInput = document.getElementById('lengthInput');
+  if (lengthInput) {
+    if (mode === 'password') {
+      lengthInput.min = 4;
+      lengthInput.max = 128;
+    } else {
+      lengthInput.min = 6;
+      lengthInput.max = 30;
+      if (parseInt(lengthInput.value) < 6) lengthInput.value = 10;
+      if (parseInt(lengthInput.value) > 30) lengthInput.value = 10;
+    }
   }
+
+  onPasswordInput();
 }
 
 function generateCurrent() {
@@ -1285,10 +1337,18 @@ function updateStrength(pwd, poolSize, fillId, labelId, entropyId) {
 
 function checkPassword() {
   const val = document.getElementById('checkInput').value;
+  const strengthArea = document.getElementById('checkStrengthArea');
+  const resultDiv = document.getElementById('checkResult');
+  const hibpDiv = document.getElementById('hibpResult');
   if (!val) {
-    document.getElementById('checkStrengthLabel').textContent = '—';
+    strengthArea.classList.add('hidden');
+    resultDiv.classList.add('hidden');
+    hibpDiv.style.display = 'none';
     return;
   }
+  strengthArea.classList.remove('hidden');
+  resultDiv.classList.remove('hidden');
+  hibpDiv.style.display = 'none';
   let pool = 0, types = [];
   if (/[a-z]/.test(val)) { pool += 26; types.push('a-z'); }
   if (/[A-Z]/.test(val)) { pool += 26; types.push('A-Z'); }
@@ -1346,8 +1406,6 @@ function init() {
   applyLanguage(currentLang);
   const savedTheme = localStorage.getItem('pg_theme') || 'light';
   applyTheme(savedTheme);
-  generate();
-  generatePronounce();
 }
 
 init();
