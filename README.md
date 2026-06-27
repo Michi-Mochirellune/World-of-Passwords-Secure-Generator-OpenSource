@@ -1,3 +1,5 @@
+![](./World-Of-Passwords.png)
+
 # World of Passwords
 
 ⭐ **Поставь звезду, если проект оказался полезным для тебя!**
